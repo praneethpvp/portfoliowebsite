@@ -3,329 +3,687 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Praneeth Varma | Data Analyst & Scientist</title>
-    <meta name="description" content="Portfolio of Praneeth Varma, a Results-driven Data Analyst & Scientist with 10 years of experience at Intuit, Microsoft, Amazon, and Google.">
-    <link rel="stylesheet" href="styles.css">
+    <title>Praneeth Varma | Product Analytics Engineer</title>
+    <meta name="description" content="Product Analytics Engineer with 10+ years at Google, Amazon, Microsoft & Intuit. Turning complex data into product strategy and business impact.">
+    <meta property="og:title" content="Praneeth Varma — Product Analytics Engineer">
+    <meta property="og:description" content="10+ years driving product strategy with data at Google, Amazon, Microsoft & Intuit.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.praneethvarma.com">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23050510'/><text x='50' y='68' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='50' fill='%2300d4ff'>PV</text></svg>">
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="cursor-glow"></div>
-    
-    <nav class="navbar">
+
+    <!-- Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">PV.</a>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Work</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact" class="btn-primary">Contact</a></li>
+            <a href="#" class="logo">PV<span class="logo-dot">.</span></a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#impact">Impact</a></li>
+                <li><a href="#journey">Journey</a></li>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#skills">Toolkit</a></li>
+                <li><a href="#vision">Vision</a></li>
+                <li><a href="Praneeth_Varma_Resume.pdf" target="_blank" class="btn-resume"><i data-lucide="download" class="icon-sm"></i> Resume</a></li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
     <main>
+
+        <!-- ============ HERO ============ -->
         <section id="hero" class="hero">
-            <div class="container hero-content">
-                <span class="eyebrow">Hello, I'm</span>
-                <h1 class="glitch-text" data-text="Praneeth Varma">Praneeth Varma</h1>
-                <h2 class="subtitle">Data Analyst & Scientist</h2>
-                <p class="hero-desc">
-                    Transforming complex datasets into actionable product insights. 
-                    10+ years driving strategy at <span class="highlight">Intuit</span>, <span class="highlight">Microsoft</span>, <span class="highlight">Amazon</span>, and <span class="highlight">Google</span>.
-                </p>
-                <div class="cta-group">
-                    <a href="#projects" class="btn-primary">View My Work</a>
-                    <a href="#contact" class="btn-secondary">Get in Touch</a>
+            <div class="container hero-grid">
+                <div class="hero-text">
+                    <span class="eyebrow">PRODUCT ANALYTICS ENGINEER</span>
+                    <h1 class="hero-name">Praneeth<br>Varma</h1>
+                    <div class="hero-tagline">
+                        <span class="tagline-static">I</span>
+                        <span class="tagline-rotating" id="rotating-text"></span>
+                        <span class="tagline-cursor">|</span>
+                    </div>
+                    <p class="hero-desc">
+                        A decade of turning ambiguous data into product strategy and measurable business impact at the world's most influential tech companies.
+                    </p>
+                    <div class="company-strip">
+                        <span class="company-name" data-color="#4285F4">Google</span>
+                        <span class="company-divider">/</span>
+                        <span class="company-name" data-color="#FF9900">Amazon</span>
+                        <span class="company-divider">/</span>
+                        <span class="company-name" data-color="#00A4EF">Microsoft</span>
+                        <span class="company-divider">/</span>
+                        <span class="company-name" data-color="#365EBF">Intuit</span>
+                    </div>
+                    <div class="hero-ctas">
+                        <a href="#work" class="btn-primary">Explore My Work</a>
+                        <a href="#contact" class="btn-outline">Get in Touch</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="profile-photo-wrapper">
+                        <div class="photo-ring"></div>
+                        <img src="profile.jpg" alt="Praneeth Varma" class="profile-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                        <div class="photo-fallback">PV</div>
+                        <div class="photo-glow"></div>
+                    </div>
+                    <div class="hero-float-cards">
+                        <div class="float-card float-card-1">
+                            <i data-lucide="trending-up" class="icon-sm"></i>
+                            <span>+50% Detection</span>
+                        </div>
+                        <div class="float-card float-card-2">
+                            <i data-lucide="bar-chart-3" class="icon-sm"></i>
+                            <span>25+ Campaigns</span>
+                        </div>
+                        <div class="float-card float-card-3">
+                            <i data-lucide="zap" class="icon-sm"></i>
+                            <span>10+ Years</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="hero-visual">
-                <!-- Abstract Data Viz Animation will go here via CSS/JS -->
-                <div class="data-grid"></div>
+            <div class="scroll-indicator">
+                <span>Scroll to explore</span>
+                <div class="scroll-arrow"></div>
             </div>
         </section>
 
+        <!-- ============ IMPACT ============ -->
+        <section id="impact" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">IMPACT</span>
+                    <h2 class="section-title">Numbers That Tell the Story</h2>
+                </div>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <div class="impact-icon"><i data-lucide="shield-check"></i></div>
+                        <div class="impact-number" data-target="50" data-suffix="%">0</div>
+                        <div class="impact-label">Fraud Detection Improvement</div>
+                        <div class="impact-context">Built ML models at Google that cut fraudulent profiles in half</div>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon"><i data-lucide="target"></i></div>
+                        <div class="impact-number" data-target="25" data-suffix="+">0</div>
+                        <div class="impact-label">Global Campaigns Driven</div>
+                        <div class="impact-context">Powered Azure & Office marketing analytics at Microsoft</div>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon"><i data-lucide="trending-up"></i></div>
+                        <div class="impact-number" data-target="20" data-suffix="%">0</div>
+                        <div class="impact-label">Search Engagement Lift</div>
+                        <div class="impact-context">Refined ranking algorithms with ML scientists at Amazon</div>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon"><i data-lucide="layout-dashboard"></i></div>
+                        <div class="impact-number" data-target="95" data-suffix="%">0</div>
+                        <div class="impact-label">Data Quality Achieved</div>
+                        <div class="impact-context">Revamped ETL pipelines eliminating inconsistencies at Microsoft</div>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon"><i data-lucide="users"></i></div>
+                        <div class="impact-number" data-target="25" data-suffix="%">0</div>
+                        <div class="impact-label">Customer Acquisition Growth</div>
+                        <div class="impact-context">Drove new customer growth through metric-driven campaigns</div>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon"><i data-lucide="brain"></i></div>
+                        <div class="impact-number" data-target="60" data-suffix="%">0</div>
+                        <div class="impact-label">ML Recall Rate</div>
+                        <div class="impact-context">Identifying abusive orders on Google Shopping with ML</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ ABOUT ============ -->
         <section id="about" class="section">
             <div class="container">
-                <h2 class="section-title">About Me</h2>
-                <div class="about-grid">
-                    <div class="about-text">
-                        <p>
-                            I am a results-driven Data Analyst & Scientist with a decade of experience building data-driven solutions in large-scale tech environments. 
-                            My expertise lies in transforming ambiguous data into clear, actionable product insights and KPIs that drive strategy.
+                <div class="section-header">
+                    <span class="section-label">STORY</span>
+                    <h2 class="section-title">The Person Behind the Data</h2>
+                </div>
+                <div class="about-layout">
+                    <div class="about-narrative">
+                        <p class="about-lead">
+                            I've spent the last decade at the intersection of data and product — turning ambiguity into clarity at companies that serve billions of people.
                         </p>
                         <p>
-                            I specialize in <strong>A/B testing</strong>, <strong>SQL</strong>, and <strong>statistical analysis</strong>, focusing on leveraging analytical prowess to improve user experiences at scale. 
-                            Currently, I am a Reporting Data Analyst IV at <strong>Intuit</strong>, optimizing fraud policy frameworks.
+                            It started at <strong>Google</strong>, where I hunted fraud patterns across Shopping that saved millions in losses. At <strong>Amazon</strong>, I partnered with ML scientists to tune search algorithms across the US and India. At <strong>Microsoft</strong>, I powered 25+ global campaigns for Azure and Office, then rebuilt analytics pipelines from the ground up. Now at <strong>Intuit</strong>, I'm building the fraud intelligence frameworks that protect customers at scale.
+                        </p>
+                        <p>
+                            I don't just analyze data — I translate it into strategy. Whether it's defining the KPIs that matter, designing experiments that actually answer the question, or building dashboards that drive decisions, I care about one thing: <strong>impact</strong>.
+                        </p>
+                        <p>
+                            Outside of work, I'm experimenting with AI-powered products, optimizing my health with data, and figuring out how to build tools that help people make better decisions about their lives.
                         </p>
                     </div>
-                    <div class="about-stats">
-                        <div class="stat-card">
-                            <span class="stat-number">10+</span>
-                            <span class="stat-label">Years Experience</span>
+                    <div class="about-sidebar">
+                        <div class="sidebar-card">
+                            <h4>Quick Facts</h4>
+                            <ul class="facts-list">
+                                <li><i data-lucide="map-pin" class="icon-sm"></i> Fremont, CA</li>
+                                <li><i data-lucide="briefcase" class="icon-sm"></i> Intuit (Current)</li>
+                                <li><i data-lucide="graduation-cap" class="icon-sm"></i> MS Business Analytics, ASU</li>
+                                <li><i data-lucide="globe" class="icon-sm"></i> English, Hindi, Telugu</li>
+                            </ul>
                         </div>
-                        <div class="stat-card">
-                            <span class="stat-number">4</span>
-                            <span class="stat-label">Tech Giants</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-number">25+</span>
-                            <span class="stat-label">Global Campaigns</span>
+                        <div class="sidebar-card">
+                            <h4>What Drives Me</h4>
+                            <div class="passion-tags">
+                                <span>Building with AI</span>
+                                <span>Health & Nutrition</span>
+                                <span>Product Thinking</span>
+                                <span>Data Storytelling</span>
+                                <span>Debugging Everything</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="experience" class="section">
+        <!-- ============ EXPERIENCE ============ -->
+        <section id="journey" class="section">
             <div class="container">
-                <h2 class="section-title">Experience</h2>
+                <div class="section-header">
+                    <span class="section-label">JOURNEY</span>
+                    <h2 class="section-title">A Decade of Impact</h2>
+                </div>
                 <div class="timeline">
-                    <!-- Intuit -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <h3>Intuit</h3>
-                                <span class="role">Reporting Data Analyst IV</span>
-                                <span class="date">Oct 2024 – Present</span>
+                    <div class="timeline-item" data-company="intuit">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="company-badge intuit">Intuit</div>
+                                <div class="role-info">
+                                    <h3>Reporting Data Analyst IV</h3>
+                                    <span class="date-range">Oct 2024 — Present</span>
+                                </div>
                             </div>
-                            <ul class="job-details">
-                                <li>Built 5+ critical dashboards end-to-end for tracking Fraud Policy KPIs.</li>
-                                <li>Spearheaded the migration of 10+ dashboards to QuickSight, enhancing data quality.</li>
-                                <li>Led cross-functional collaboration for the Fast Funding project reporting framework.</li>
+                            <ul class="achievements">
+                                <li>Built <strong>5+ critical dashboards</strong> end-to-end for tracking Fraud Policy KPIs across the organization</li>
+                                <li>Spearheaded migration of <strong>10+ dashboards</strong> to QuickSight, enhancing data quality and accessibility</li>
+                                <li>Led cross-functional collaboration for the <strong>Fast Funding project</strong> reporting framework</li>
                             </ul>
+                            <div class="tech-tags">
+                                <span>QuickSight</span><span>SQL</span><span>Python</span><span>ETL</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Microsoft -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <h3>Microsoft</h3>
-                                <span class="role">Marketing Data Analyst</span>
-                                <span class="date">Dec 2023 – Sep 2024</span>
+                    <div class="timeline-item" data-company="microsoft">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="company-badge microsoft">Microsoft</div>
+                                <div class="role-info">
+                                    <h3>Marketing Data Analyst</h3>
+                                    <span class="date-range">Dec 2023 — Sep 2024</span>
+                                </div>
                             </div>
-                            <ul class="job-details">
-                                <li>Partnered with Product Managers to drive 25+ global marketing campaigns for Azure and Office.</li>
-                                <li>Drove customer engagement by 20% and new customer acquisition by 25% through metric monitoring.</li>
-                                <li>Collaborated with Growth Managers and Data Engineers to optimize in-product campaigns.</li>
+                            <ul class="achievements">
+                                <li>Partnered with PMs to drive <strong>25+ global marketing campaigns</strong> for Azure and Office products</li>
+                                <li>Drove customer engagement by <strong>20%</strong> and new customer acquisition by <strong>25%</strong></li>
+                                <li>Collaborated with Growth Managers and Data Engineers to optimize <strong>in-product campaigns</strong></li>
                             </ul>
+                            <div class="tech-tags">
+                                <span>Power BI</span><span>SQL</span><span>Azure</span><span>Growth Analytics</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Amazon -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <h3>Amazon</h3>
-                                <span class="role">Business Intelligence Engineer</span>
-                                <span class="date">Aug 2022 – May 2023</span>
+                    <div class="timeline-item" data-company="amazon">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="company-badge amazon">Amazon</div>
+                                <div class="role-info">
+                                    <h3>Business Intelligence Engineer</h3>
+                                    <span class="date-range">Aug 2022 — May 2023</span>
+                                </div>
                             </div>
-                            <ul class="job-details">
-                                <li>Led search optimization initiatives for US and India markets, monitoring CTR and relevance.</li>
-                                <li>Collaborated with ML scientists to refine search ranking algorithms, achieving a 20% lift in engagement.</li>
-                                <li>Engineered robust ETL pipelines using AWS Glue and S3 for multi-market data aggregation.</li>
+                            <ul class="achievements">
+                                <li>Led search optimization for <strong>US and India markets</strong>, monitoring CTR and relevance metrics</li>
+                                <li>Collaborated with ML scientists to refine search ranking, achieving <strong>20% engagement lift</strong></li>
+                                <li>Engineered robust <strong>ETL pipelines</strong> using AWS Glue and S3 for multi-market data aggregation</li>
                             </ul>
+                            <div class="tech-tags">
+                                <span>AWS Glue</span><span>S3</span><span>A/B Testing</span><span>ML</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Microsoft (Product Analyst) -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <h3>Microsoft</h3>
-                                <span class="role">Product Analyst</span>
-                                <span class="date">Apr 2020 – Jan 2022</span>
+                    <div class="timeline-item" data-company="microsoft">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="company-badge microsoft">Microsoft</div>
+                                <div class="role-info">
+                                    <h3>Product Analyst</h3>
+                                    <span class="date-range">Apr 2020 — Jan 2022</span>
+                                </div>
                             </div>
-                            <ul class="job-details">
-                                <li>Enhanced potential customer revenue identification by 12% via automated reports.</li>
-                                <li>Revamped ETL procedures, achieving a 95% reduction in data inconsistencies.</li>
-                                <li>Streamlined analytical workflows using Azure Data Studio.</li>
+                            <ul class="achievements">
+                                <li>Enhanced potential customer revenue identification by <strong>12%</strong> via automated reports</li>
+                                <li>Revamped ETL procedures, achieving a <strong>95% reduction</strong> in data inconsistencies</li>
+                                <li>Streamlined analytical workflows using <strong>Azure Data Studio</strong> and automated pipelines</li>
                             </ul>
+                            <div class="tech-tags">
+                                <span>Azure Data Studio</span><span>T-SQL</span><span>ETL</span><span>Power BI</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Google -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <h3>Google</h3>
-                                <span class="role">Data Analyst</span>
-                                <span class="date">Feb 2018 – Apr 2020</span>
+                    <div class="timeline-item" data-company="google">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="company-badge google">Google</div>
+                                <div class="role-info">
+                                    <h3>Data Analyst</h3>
+                                    <span class="date-range">Feb 2018 — Apr 2020</span>
+                                </div>
                             </div>
-                            <ul class="job-details">
-                                <li>Built data models resulting in a 50% improvement in detecting fraudulent profiles.</li>
-                                <li>Implemented ML algorithms achieving a 60% recall rate in identifying abusive orders.</li>
-                                <li>Enabled real-time abuse monitoring using Tableau dashboards.</li>
+                            <ul class="achievements">
+                                <li>Built data models resulting in a <strong>50% improvement</strong> in detecting fraudulent profiles</li>
+                                <li>Implemented ML algorithms achieving <strong>60% recall rate</strong> in identifying abusive orders</li>
+                                <li>Enabled <strong>real-time abuse monitoring</strong> using Tableau dashboards for Shopping teams</li>
                             </ul>
+                            <div class="tech-tags">
+                                <span>Python</span><span>ML</span><span>Tableau</span><span>BigQuery</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="section">
+        <!-- ============ CASE STUDIES ============ -->
+        <section id="work" class="section">
             <div class="container">
-                <h2 class="section-title">Selected Works</h2>
-                <div class="projects-grid">
-                    <!-- Project 1 -->
-                    <div class="project-card">
-                        <div class="project-content">
-                            <h3>Fraud Detection System</h3>
-                            <p class="project-role">Google • Data Analyst</p>
-                            <p class="project-desc">Implemented machine learning algorithms to enhance fraud detection systems on Google Shopping.</p>
-                            <div class="project-metrics">
-                                <div class="metric">
-                                    <span class="metric-val">60%</span>
-                                    <span class="metric-label">Recall Rate</span>
-                                </div>
-                                <div class="metric">
-                                    <span class="metric-val">50%</span>
-                                    <span class="metric-label">Loss Reduction</span>
+                <div class="section-header">
+                    <span class="section-label">DEEP DIVES</span>
+                    <h2 class="section-title">Selected Case Studies</h2>
+                </div>
+                <div class="case-studies-grid">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <div class="case-company">Google</div>
+                            <div class="case-icon"><i data-lucide="shield-check"></i></div>
+                        </div>
+                        <h3 class="case-title">Fraud Detection System</h3>
+                        <p class="case-subtitle">Machine Learning for Shopping Trust & Safety</p>
+                        <div class="case-story">
+                            <div class="case-section">
+                                <span class="case-label">Challenge</span>
+                                <p>Google Shopping faced growing losses from fraudulent merchant profiles and abusive orders, with existing rule-based systems missing sophisticated attack patterns.</p>
+                            </div>
+                            <div class="case-section">
+                                <span class="case-label">Approach</span>
+                                <p>Built ML classification models to detect fraud signals, combining behavioral features with transactional patterns. Created real-time Tableau monitoring dashboards.</p>
+                            </div>
+                            <div class="case-section">
+                                <span class="case-label">Impact</span>
+                                <div class="case-metrics">
+                                    <div class="case-metric">
+                                        <div class="metric-bar-track"><div class="metric-bar" data-width="50"></div></div>
+                                        <span class="metric-value">50%</span>
+                                        <span class="metric-desc">Fraudulent Profile Reduction</span>
+                                    </div>
+                                    <div class="case-metric">
+                                        <div class="metric-bar-track"><div class="metric-bar" data-width="60"></div></div>
+                                        <span class="metric-value">60%</span>
+                                        <span class="metric-desc">ML Recall on Abusive Orders</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="tags">
-                                <span>Python</span>
-                                <span>ML</span>
-                                <span>Tableau</span>
-                            </div>
+                        </div>
+                        <div class="case-tags">
+                            <span>Python</span><span>ML Classification</span><span>Tableau</span><span>BigQuery</span>
                         </div>
                     </div>
 
-                    <!-- Project 2 -->
-                    <div class="project-card">
-                        <div class="project-content">
-                            <h3>Search Optimization</h3>
-                            <p class="project-role">Amazon • BI Engineer</p>
-                            <p class="project-desc">Refined search ranking algorithms and validated improvements through rigorous A/B testing.</p>
-                            <div class="project-metrics">
-                                <div class="metric">
-                                    <span class="metric-val">20%</span>
-                                    <span class="metric-label">Engagement Lift</span>
-                                </div>
-                                <div class="metric">
-                                    <span class="metric-val">10%</span>
-                                    <span class="metric-label">Merchant Engagement</span>
+                    <div class="case-card">
+                        <div class="case-header">
+                            <div class="case-company">Amazon</div>
+                            <div class="case-icon"><i data-lucide="search"></i></div>
+                        </div>
+                        <h3 class="case-title">Search Optimization</h3>
+                        <p class="case-subtitle">Multi-Market Search Ranking at Scale</p>
+                        <div class="case-story">
+                            <div class="case-section">
+                                <span class="case-label">Challenge</span>
+                                <p>Search relevance and engagement metrics across US and India markets needed optimization, with different user behaviors requiring market-specific tuning.</p>
+                            </div>
+                            <div class="case-section">
+                                <span class="case-label">Approach</span>
+                                <p>Partnered with ML scientists to design A/B experiments, built ETL pipelines with AWS Glue for cross-market data, and validated ranking algorithm changes rigorously.</p>
+                            </div>
+                            <div class="case-section">
+                                <span class="case-label">Impact</span>
+                                <div class="case-metrics">
+                                    <div class="case-metric">
+                                        <div class="metric-bar-track"><div class="metric-bar" data-width="20"></div></div>
+                                        <span class="metric-value">20%</span>
+                                        <span class="metric-desc">Engagement Lift</span>
+                                    </div>
+                                    <div class="case-metric">
+                                        <div class="metric-bar-track"><div class="metric-bar" data-width="10"></div></div>
+                                        <span class="metric-value">10%</span>
+                                        <span class="metric-desc">Merchant Engagement Growth</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="tags">
-                                <span>AWS Glue</span>
-                                <span>SQL</span>
-                                <span>A/B Testing</span>
-                            </div>
+                        </div>
+                        <div class="case-tags">
+                            <span>AWS Glue</span><span>S3</span><span>A/B Testing</span><span>SQL</span>
                         </div>
                     </div>
 
-                    <!-- Project 3 -->
-                    <div class="project-card">
-                        <div class="project-content">
-                            <h3>Global Marketing Analytics</h3>
-                            <p class="project-role">Microsoft • Marketing Data Analyst</p>
-                            <p class="project-desc">Partnered with PMs to drive 25+ global campaigns, establishing KPI frameworks for Azure and Office.</p>
-                            <div class="project-metrics">
-                                <div class="metric">
-                                    <span class="metric-val">25%</span>
-                                    <span class="metric-label">Acquisition</span>
-                                </div>
-                                <div class="metric">
-                                    <span class="metric-val">20%</span>
-                                    <span class="metric-label">Engagement</span>
+                    <div class="case-card">
+                        <div class="case-header">
+                            <div class="case-company">Microsoft</div>
+                            <div class="case-icon"><i data-lucide="megaphone"></i></div>
+                        </div>
+                        <h3 class="case-title">Global Marketing Analytics</h3>
+                        <p class="case-subtitle">Data-Driven Campaign Strategy at Scale</p>
+                        <div class="case-story">
+                            <div class="case-section">
+                                <span class="case-label">Challenge</span>
+                                <p>Azure and Office needed a unified analytics framework to measure and optimize 25+ concurrent global campaigns across diverse markets and products.</p>
+                            </div>
+                            <div class="case-section">
+                                <span class="case-label">Approach</span>
+                                <p>Established KPI frameworks with Product Managers, built metric monitoring systems, and partnered with Growth teams to optimize in-product campaign performance.</p>
+                            </div>
+                            <div class="case-section">
+                                <span class="case-label">Impact</span>
+                                <div class="case-metrics">
+                                    <div class="case-metric">
+                                        <div class="metric-bar-track"><div class="metric-bar" data-width="25"></div></div>
+                                        <span class="metric-value">25%</span>
+                                        <span class="metric-desc">New Customer Acquisition</span>
+                                    </div>
+                                    <div class="case-metric">
+                                        <div class="metric-bar-track"><div class="metric-bar" data-width="20"></div></div>
+                                        <span class="metric-value">20%</span>
+                                        <span class="metric-desc">Customer Engagement Boost</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="tags">
-                                <span>SQL</span>
-                                <span>Power BI</span>
-                                <span>Growth Strategy</span>
-                            </div>
+                        </div>
+                        <div class="case-tags">
+                            <span>Power BI</span><span>SQL</span><span>KPI Design</span><span>Growth Strategy</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ============ SKILLS ============ -->
         <section id="skills" class="section">
             <div class="container">
-                <h2 class="section-title">Technical Skills</h2>
-                <div class="skills-wrapper">
-                    <div class="skill-category">
-                        <h3>Analytics & Testing</h3>
-                        <div class="skill-list">
-                            <span>A/B Testing</span>
-                            <span>Statistical Analysis</span>
-                            <span>KPI Definition</span>
-                            <span>Market Trend Analysis</span>
-                            <span>Forecasting</span>
-                        </div>
+                <div class="section-header">
+                    <span class="section-label">TOOLKIT</span>
+                    <h2 class="section-title">What I Work With</h2>
+                </div>
+                <div class="skills-layout">
+                    <div class="radar-container">
+                        <svg id="radar-chart" viewBox="0 0 300 300" class="radar-svg"></svg>
+                        <p class="radar-caption">Skill distribution across core competencies</p>
                     </div>
-                    <div class="skill-category">
-                        <h3>Languages</h3>
-                        <div class="skill-list">
-                            <span>SQL (T-SQL/PL-SQL)</span>
-                            <span>Python (Pandas, PySpark)</span>
-                            <span>R</span>
-                            <span>DAX</span>
-                            <span>JavaScript</span>
+                    <div class="skills-detail">
+                        <div class="skill-group">
+                            <h3><i data-lucide="bar-chart-3" class="icon-sm"></i> Analytics & Testing</h3>
+                            <div class="skill-pills">
+                                <span class="skill-pill">A/B Testing</span>
+                                <span class="skill-pill">Statistical Analysis</span>
+                                <span class="skill-pill">KPI Definition</span>
+                                <span class="skill-pill">Market Trend Analysis</span>
+                                <span class="skill-pill">Forecasting</span>
+                                <span class="skill-pill">Experimentation Design</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>BI & Visualization</h3>
-                        <div class="skill-list">
-                            <span>Tableau</span>
-                            <span>Power BI</span>
-                            <span>QuickSight</span>
-                            <span>Looker</span>
-                            <span>Excel</span>
+                        <div class="skill-group">
+                            <h3><i data-lucide="code" class="icon-sm"></i> Languages & Frameworks</h3>
+                            <div class="skill-pills">
+                                <span class="skill-pill">SQL (T-SQL / PL-SQL)</span>
+                                <span class="skill-pill">Python</span>
+                                <span class="skill-pill">Pandas / PySpark</span>
+                                <span class="skill-pill">R</span>
+                                <span class="skill-pill">DAX</span>
+                                <span class="skill-pill">JavaScript</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Cloud & Engineering</h3>
-                        <div class="skill-list">
-                            <span>AWS (Glue, Athena, S3)</span>
-                            <span>Azure Data Studio</span>
-                            <span>Snowflake</span>
-                            <span>BigQuery</span>
-                            <span>Apache Spark</span>
+                        <div class="skill-group">
+                            <h3><i data-lucide="monitor" class="icon-sm"></i> BI & Visualization</h3>
+                            <div class="skill-pills">
+                                <span class="skill-pill">Tableau</span>
+                                <span class="skill-pill">Power BI</span>
+                                <span class="skill-pill">QuickSight</span>
+                                <span class="skill-pill">Looker</span>
+                                <span class="skill-pill">Excel (Advanced)</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3><i data-lucide="cloud" class="icon-sm"></i> Cloud & Engineering</h3>
+                            <div class="skill-pills">
+                                <span class="skill-pill">AWS (Glue, Athena, S3)</span>
+                                <span class="skill-pill">Azure Data Studio</span>
+                                <span class="skill-pill">Snowflake</span>
+                                <span class="skill-pill">BigQuery</span>
+                                <span class="skill-pill">Apache Spark</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3><i data-lucide="sparkles" class="icon-sm"></i> AI & Machine Learning</h3>
+                            <div class="skill-pills">
+                                <span class="skill-pill">Neural Networks</span>
+                                <span class="skill-pill">CNNs</span>
+                                <span class="skill-pill">Classification Models</span>
+                                <span class="skill-pill">NLP</span>
+                                <span class="skill-pill">Anomaly Detection</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer id="contact">
-            <div class="container footer-content">
-                <div class="footer-left">
-                    <h2>Let's Connect</h2>
-                    <p>Open to opportunities in Data Science and Analytics.</p>
-                    <a href="mailto:praneeth.verma@gmail.com" class="email-link">praneeth.verma@gmail.com</a>
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/praneethvarma" target="_blank">LinkedIn</a>
-                        <!-- Add other links if available -->
+        <!-- ============ VISION ============ -->
+        <section id="vision" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">VISION</span>
+                    <h2 class="section-title">What I'm Building Next</h2>
+                    <p class="section-subtitle">Beyond the day job — exploring the intersection of AI, data, and products that help people make better decisions.</p>
+                </div>
+                <div class="ventures-grid">
+                    <div class="venture-card">
+                        <div class="venture-icon"><i data-lucide="layout-dashboard"></i></div>
+                        <h3>AI Life Dashboard</h3>
+                        <p>A personal AI dashboard that pulls together your health, tasks, finances, and relationships into one visual view — then uses AI to prioritize what actually matters today.</p>
+                        <span class="venture-tag">Product Concept</span>
+                    </div>
+                    <div class="venture-card">
+                        <div class="venture-icon"><i data-lucide="sparkles"></i></div>
+                        <h3>AI Analytics Engine</h3>
+                        <p>Helping businesses implement AI into their existing analytics workflows — turning slow, manual data work into fast, AI-powered insight engines.</p>
+                        <span class="venture-tag">Service / SaaS</span>
+                    </div>
+                    <div class="venture-card">
+                        <div class="venture-icon"><i data-lucide="heart-pulse"></i></div>
+                        <h3>Health Intelligence</h3>
+                        <p>A platform that analyzes your health data — labs, wearables, diet logs — and gives personalized, data-backed nutrition recommendations tailored to your body.</p>
+                        <span class="venture-tag">Health Tech</span>
                     </div>
                 </div>
-                <div class="footer-right">
-                    <p class="location">Fremont, CA</p>
-                    <p class="copyright">&copy; 2025 Praneeth Varma. All rights reserved.</p>
+            </div>
+        </section>
+
+        <!-- ============ EDUCATION ============ -->
+        <section id="education" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">FOUNDATION</span>
+                    <h2 class="section-title">Education & Certifications</h2>
+                </div>
+                <div class="education-layout">
+                    <div class="degree-card">
+                        <div class="degree-icon"><i data-lucide="graduation-cap"></i></div>
+                        <div class="degree-info">
+                            <h3>Master of Science — Business Analytics</h3>
+                            <p class="degree-school">W. P. Carey School of Business, Arizona State University</p>
+                            <p class="degree-meta">2016 — 2017 &nbsp;|&nbsp; GPA: 3.8 / 4.0</p>
+                            <div class="coursework-tags">
+                                <span>Data Mining</span><span>Machine Learning</span><span>Business Analytics</span><span>Operations Research</span><span>Marketing Analytics</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="certs-grid">
+                        <div class="cert-card">
+                            <div class="cert-provider">Coursera / deeplearning.ai</div>
+                            <h4>Convolutional Neural Networks</h4>
+                        </div>
+                        <div class="cert-card">
+                            <div class="cert-provider">Coursera / deeplearning.ai</div>
+                            <h4>Structuring ML Projects</h4>
+                        </div>
+                        <div class="cert-card">
+                            <div class="cert-provider">Coursera / deeplearning.ai</div>
+                            <h4>Improving Deep Neural Networks</h4>
+                        </div>
+                        <div class="cert-card">
+                            <div class="cert-provider">Coursera / deeplearning.ai</div>
+                            <h4>Neural Networks & Deep Learning</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ GITHUB ============ -->
+        <section id="github-section" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">OPEN SOURCE</span>
+                    <h2 class="section-title">GitHub Projects</h2>
+                </div>
+                <div class="github-grid">
+                    <a href="https://github.com/praneethpvp/Sleep-Data-Analysis-with-ANOVA" target="_blank" class="github-card">
+                        <div class="github-card-header">
+                            <i data-lucide="folder-git-2" class="icon-sm"></i>
+                            <i data-lucide="external-link" class="icon-sm github-link-icon"></i>
+                        </div>
+                        <h4>Sleep Data Analysis</h4>
+                        <p>Statistical modeling and hypothesis testing of sleep efficiency data from fitness trackers and heart-rate monitors using ANOVA.</p>
+                        <div class="github-meta">
+                            <span class="github-lang"><span class="lang-dot r"></span>R / Statistics</span>
+                        </div>
+                    </a>
+                    <a href="https://github.com/praneethpvp/CDiscount-Image-Classification-" target="_blank" class="github-card">
+                        <div class="github-card-header">
+                            <i data-lucide="folder-git-2" class="icon-sm"></i>
+                            <i data-lucide="external-link" class="icon-sm github-link-icon"></i>
+                        </div>
+                        <h4>Image Classification</h4>
+                        <p>Deep learning model for large-scale product image classification using convolutional neural networks.</p>
+                        <div class="github-meta">
+                            <span class="github-lang"><span class="lang-dot python"></span>Python / Deep Learning</span>
+                        </div>
+                    </a>
+                    <a href="https://github.com/praneethpvp/Predicting-Employee-Turnover-Complete-Guide-Analysis" target="_blank" class="github-card">
+                        <div class="github-card-header">
+                            <i data-lucide="folder-git-2" class="icon-sm"></i>
+                            <i data-lucide="external-link" class="icon-sm github-link-icon"></i>
+                        </div>
+                        <h4>Employee Turnover Prediction</h4>
+                        <p>Complete guide to predicting employee departures using machine learning — feature engineering, model comparison, and business insights.</p>
+                        <div class="github-meta">
+                            <span class="github-lang"><span class="lang-dot jupyter"></span>Jupyter / ML</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="github-cta">
+                    <a href="https://github.com/praneethpvp" target="_blank" class="btn-outline">
+                        <i data-lucide="github" class="icon-sm"></i> View All Repos
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CONTACT ============ -->
+        <footer id="contact" class="section footer-section">
+            <div class="container">
+                <div class="contact-content">
+                    <span class="section-label">CONNECT</span>
+                    <h2 class="contact-title">Let's Build Something Together</h2>
+                    <p class="contact-desc">Open to opportunities in Product Analytics, Data Science, and AI — as well as consulting engagements and collaborations.</p>
+                    <div class="contact-links">
+                        <a href="mailto:praneeth.verma@gmail.com" class="contact-link">
+                            <i data-lucide="mail"></i>
+                            <span>praneeth.verma@gmail.com</span>
+                        </a>
+                        <a href="https://linkedin.com/in/praneethvarma" target="_blank" class="contact-link">
+                            <i data-lucide="linkedin"></i>
+                            <span>linkedin.com/in/praneethvarma</span>
+                        </a>
+                        <a href="https://github.com/praneethpvp" target="_blank" class="contact-link">
+                            <i data-lucide="github"></i>
+                            <span>github.com/praneethpvp</span>
+                        </a>
+                    </div>
+                    <div class="contact-ctas">
+                        <a href="Praneeth_Varma_Resume.pdf" target="_blank" class="btn-primary"><i data-lucide="download" class="icon-sm"></i> Download Resume</a>
+                        <a href="mailto:praneeth.verma@gmail.com" class="btn-outline">Say Hello</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p class="location"><i data-lucide="map-pin" class="icon-sm"></i> Fremont, CA</p>
+                    <p class="copyright">&copy; 2026 Praneeth Varma. Designed with data and intention.</p>
                 </div>
             </div>
         </footer>
+
     </main>
 
     <script src="script.js"></script>
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 </html>
