@@ -719,6 +719,42 @@
 
     </main>
 
+    <!-- ============ CHATBOT ============ -->
+    <button class="chat-toggle" id="chat-toggle" aria-label="Open chat">
+        <i data-lucide="message-circle" class="chat-toggle-icon"></i>
+        <span class="chat-toggle-label">Ask me anything</span>
+        <span class="chat-pulse"></span>
+    </button>
+
+    <div class="chat-panel" id="chat-panel">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-avatar">PV</div>
+                <div>
+                    <div class="chat-header-name">Praneeth's Assistant</div>
+                    <div class="chat-header-status"><span class="status-dot"></span> Online</div>
+                </div>
+            </div>
+            <button class="chat-close" id="chat-close" aria-label="Close chat">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-suggestions" id="chat-suggestions">
+            <button class="suggestion-chip" data-q="What's your experience?">Experience</button>
+            <button class="suggestion-chip" data-q="What skills do you have?">Skills</button>
+            <button class="suggestion-chip" data-q="Tell me about your work at Google">Google</button>
+            <button class="suggestion-chip" data-q="How can I contact you?">Contact</button>
+        </div>
+        <form class="chat-input-form" id="chat-form">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Ask about my experience, skills, projects..." autocomplete="off">
+            <button type="submit" class="chat-send" aria-label="Send">
+                <i data-lucide="send"></i>
+            </button>
+        </form>
+    </div>
+
     <script src="script.js"></script>
+    <script src="chatbot.js"></script>
 </body>
 </html>
