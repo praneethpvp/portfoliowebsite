@@ -146,12 +146,17 @@
             followUp: ['experience', 'skills', 'ventures']
         },
         {
-            patterns: [/who\s*(is|are)\s*(you|praneeth)/i, /about\s*(you|him|praneeth)/i, /tell\s*me\s*about/i, /introduce/i, /what\s*do\s*you\s*do/i],
+            patterns: [/who\s*(is|are)\s*(you|praneeth)/i, /about\s*(you|him|praneeth)\b/i, /tell\s*me\s*about\s*(you|him|praneeth|yourself)\b/i, /introduce/i, /^what\s*do\s*you\s*do\??$/i],
             response: () => `<strong>${KB.name}</strong> is a ${KB.title} with ${KB.yearsExp} years of experience at <strong>Google, Amazon, Microsoft,</strong> and <strong>Intuit</strong>.\n\nHe specializes in turning ambiguous data into product strategy — from fraud detection ML models to global marketing analytics frameworks.\n\nHe holds an MS in Business Analytics from ASU (3.8 GPA) and is passionate about building AI-powered products.`,
             followUp: ['experience', 'skills', 'education']
         },
         {
-            patterns: [/experience/i, /work\s*history/i, /career/i, /where.*work/i, /companies/i, /jobs?/i, /roles?/i, /positions?/i],
+            patterns: [/\bml\b|machine\s*learn/i, /\bai\b/i, /deep\s*learn/i, /neural/i, /fraud/i, /classification/i, /nlp/i],
+            response: () => `Praneeth has hands-on ML/AI experience:\n\n• Built <strong>fraud detection ML models</strong> at Google (50% improvement, 60% recall)\n• Collaborated with <strong>ML scientists</strong> at Amazon on search ranking\n• <strong>Certifications:</strong> CNNs, Neural Networks, Deep Learning (deeplearning.ai)\n• Skills: Classification, NLP, Anomaly Detection\n\nHe's also building AI-powered products — an AI Life Dashboard and an AI Analytics Engine.`,
+            followUp: ['ventures', 'google', 'certifications']
+        },
+        {
+            patterns: [/experience/i, /work\s*history/i, /career/i, /where.*work/i, /your\s*work/i, /companies/i, /jobs?/i, /roles?/i, /positions?/i],
             response: () => {
                 const exp = KB.experience.map(e => `<strong>${e.company}</strong> — ${e.role}\n<span style="color:var(--text-tertiary);font-size:0.78rem">${e.period}</span>`).join('\n\n');
                 return `Here's Praneeth's career journey:\n\n${exp}\n\nWant details about any specific role?`;
@@ -191,7 +196,7 @@
             followUp: ['google', 'skills', 'ventures']
         },
         {
-            patterns: [/skills?/i, /tech\s*stack/i, /tools?/i, /what.*know/i, /technologies/i, /proficien/i, /toolkit/i],
+            patterns: [/skills?/i, /tech\s*stack/i, /tools?/i, /what.*know/i, /technologies/i, /proficien/i, /toolkit/i, /programming\s*language/i],
             response: () => {
                 const s = KB.skills;
                 return `Here's Praneeth's toolkit:\n\n<strong>📊 Analytics:</strong> ${s.analytics.join(', ')}\n\n<strong>💻 Languages:</strong> ${s.languages.join(', ')}\n\n<strong>📈 BI & Viz:</strong> ${s.bi.join(', ')}\n\n<strong>☁️ Cloud:</strong> ${s.cloud.join(', ')}\n\n<strong>🧠 AI/ML:</strong> ${s.ml.join(', ')}`;
@@ -224,17 +229,12 @@
             followUp: ['skills', 'amazon', 'microsoft']
         },
         {
-            patterns: [/\bml\b|machine\s*learn/i, /\bai\b/i, /deep\s*learn/i, /neural/i, /fraud/i, /classification/i, /nlp/i],
-            response: () => `Praneeth has hands-on ML/AI experience:\n\n• Built <strong>fraud detection ML models</strong> at Google (50% improvement, 60% recall)\n• Collaborated with <strong>ML scientists</strong> at Amazon on search ranking\n• <strong>Certifications:</strong> CNNs, Neural Networks, Deep Learning (deeplearning.ai)\n• Skills: Classification, NLP, Anomaly Detection\n\nHe's also building AI-powered products — an AI Life Dashboard and an AI Analytics Engine.`,
-            followUp: ['ventures', 'google', 'certifications']
-        },
-        {
-            patterns: [/education/i, /degree/i, /university/i, /college/i, /school/i, /\basu\b/i, /masters?/i, /study/i, /studied/i],
+            patterns: [/education/i, /degree/i, /university/i, /college/i, /school/i, /\basu\b/i, /masters?/i, /study/i, /studied/i, /coursework/i],
             response: () => `<strong>${KB.education.degree}</strong>\n${KB.education.school}\n${KB.education.year} | GPA: ${KB.education.gpa}\n\n<strong>Coursework:</strong> ${KB.education.coursework.join(', ')}`,
             followUp: ['certifications', 'skills', 'experience']
         },
         {
-            patterns: [/certif/i, /coursera/i, /deeplearning/i, /course/i],
+            patterns: [/certif/i, /coursera/i, /deeplearning/i, /\bcourses?\b/i],
             response: () => `Praneeth holds these certifications from <strong>deeplearning.ai / Coursera</strong>:\n\n${KB.certifications.map(c => '• ' + c).join('\n')}\n\nHe's currently pursuing additional AI architecture certifications.`,
             followUp: ['education', 'ml', 'skills']
         },
@@ -266,7 +266,7 @@
             followUp: ['contact', 'github', 'experience']
         },
         {
-            patterns: [/github/i, /repo/i, /open\s*source/i, /project/i, /portfolio/i],
+            patterns: [/github/i, /repo/i, /open\s*source/i, /\bprojects?\b/i, /portfolio/i],
             response: () => {
                 const repos = KB.githubProjects.map(r => `• <strong>${r.name}</strong> — ${r.desc}`).join('\n');
                 return `Praneeth's GitHub projects:\n\n${repos}`;
@@ -280,7 +280,7 @@
             followUp: ['contact', 'experience']
         },
         {
-            patterns: [/language/i, /speak/i, /hindi/i, /telugu/i],
+            patterns: [/spoken\s*language/i, /what.*speak/i, /\bhindi\b/i, /\btelugu\b/i, /multilingual/i, /bilingual/i],
             response: () => `Praneeth speaks:\n\n${KB.languages.map(l => '• ' + l).join('\n')}`,
             followUp: ['about', 'contact']
         },
@@ -293,7 +293,7 @@
             followUp: ['experience', 'skills', 'ventures']
         },
         {
-            patterns: [/venture/i, /building/i, /side\s*project/i, /startup/i, /business/i, /entrepreneur/i, /ikigai/i, /vision/i, /next/i, /future/i, /plan/i],
+            patterns: [/venture/i, /what.*building/i, /side\s*project/i, /startup/i, /business\s*idea/i, /entrepreneur/i, /ikigai/i, /\bvision\b/i, /what.*next/i, /future\s*(plan|goal|vision)/i],
             response: () => {
                 const v = KB.ventures.map(v => `• <strong>${v.name}</strong> — ${v.desc}`).join('\n');
                 return `Praneeth is exploring these ventures:\n\n${v}\n\nThese sit at the intersection of his analytics expertise and passion for AI + health.`;
