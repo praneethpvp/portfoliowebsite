@@ -239,7 +239,12 @@
             followUp: ['education', 'ml', 'skills']
         },
         {
-            patterns: [/contact/i, /reach/i, /email/i, /connect/i, /hire/i, /available/i, /open\s*to/i, /opportunit/i],
+            patterns: [/why\s*(should|would).*hire/i, /what\s*makes.*different/i, /strength/i, /stand\s*out/i, /unique/i],
+            response: () => `What sets Praneeth apart:\n\n• <strong>Breadth:</strong> 10+ years across 4 tech giants (Google, Amazon, Microsoft, Intuit)\n• <strong>Impact:</strong> Quantified results — 50% fraud reduction, 25% acquisition growth, 95% data quality\n• <strong>Versatility:</strong> Fraud ML, search optimization, marketing analytics, ETL engineering\n• <strong>Product mindset:</strong> Doesn't just analyze — translates data into strategy\n• <strong>Builder:</strong> Actively building AI products outside work\n\nHe's a rare blend of deep technical skill and business acumen.`,
+            followUp: ['contact', 'resume', 'case-studies']
+        },
+        {
+            patterns: [/contact/i, /reach/i, /email/i, /connect/i, /available/i, /open\s*to/i, /opportunit/i],
             response: () => `You can reach Praneeth at:\n\n📧 <strong>Email:</strong> ${KB.email}\n💼 <strong>LinkedIn:</strong> linkedin.com/in/praneethvarma\n🔗 <strong>GitHub:</strong> github.com/praneethpvp\n\nHe's open to opportunities in Product Analytics, Data Science, AI, and consulting.`,
             links: [
                 { text: '📧 Email', href: `mailto:${KB.email}` },
@@ -294,11 +299,6 @@
                 return `Praneeth is exploring these ventures:\n\n${v}\n\nThese sit at the intersection of his analytics expertise and passion for AI + health.`;
             },
             followUp: ['skills', 'experience', 'contact']
-        },
-        {
-            patterns: [/why\s*(should|would).*hire/i, /what\s*makes.*different/i, /strength/i, /stand\s*out/i, /unique/i],
-            response: () => `What sets Praneeth apart:\n\n• <strong>Breadth:</strong> 10+ years across 4 tech giants (Google, Amazon, Microsoft, Intuit)\n• <strong>Impact:</strong> Quantified results — 50% fraud reduction, 25% acquisition growth, 95% data quality\n• <strong>Versatility:</strong> Fraud ML, search optimization, marketing analytics, ETL engineering\n• <strong>Product mindset:</strong> Doesn't just analyze — translates data into strategy\n• <strong>Builder:</strong> Actively building AI products outside work\n\nHe's a rare blend of deep technical skill and business acumen.`,
-            followUp: ['contact', 'resume', 'case-studies']
         },
         {
             patterns: [/thank/i, /thanks/i, /awesome/i, /great/i, /cool/i, /perfect/i, /helpful/i],
