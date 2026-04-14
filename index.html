@@ -81,7 +81,13 @@
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <canvas id="orb-canvas"></canvas>
+                    <div class="orb-wrapper">
+                        <canvas id="orb-canvas"></canvas>
+                        <div class="profile-ring">
+                            <img src="profile.jpg" alt="Praneeth Varma" class="profile-photo" onerror="this.parentElement.classList.add('no-photo');">
+                            <div class="profile-overlay"></div>
+                        </div>
+                    </div>
                     <div class="hero-float-cards">
                         <div class="float-card float-card-1">
                             <i data-lucide="shield-check" class="icon-sm"></i>

@@ -124,19 +124,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Orbital rings with data points
+        // Rings orbit outside the centered photo (photo is ~40% of canvas)
         const rings = [
-            { radius: 0.38, speed: 0.0004, dots: 12, dotSize: 2.5, color: [0, 212, 255], opacity: 0.6 },
-            { radius: 0.32, speed: -0.0003, dots: 8, dotSize: 2, color: [124, 58, 237], opacity: 0.5 },
-            { radius: 0.26, speed: 0.0005, dots: 6, dotSize: 3, color: [16, 185, 129], opacity: 0.45 },
-            { radius: 0.44, speed: -0.00025, dots: 16, dotSize: 1.8, color: [0, 212, 255], opacity: 0.3 },
+            { radius: 0.30, speed: 0.0005, dots: 8, dotSize: 2.5, color: [0, 212, 255], opacity: 0.6 },
+            { radius: 0.36, speed: -0.0003, dots: 10, dotSize: 2, color: [124, 58, 237], opacity: 0.5 },
+            { radius: 0.42, speed: 0.0004, dots: 14, dotSize: 2.5, color: [16, 185, 129], opacity: 0.45 },
+            { radius: 0.48, speed: -0.00025, dots: 18, dotSize: 1.8, color: [0, 212, 255], opacity: 0.3 },
         ];
 
         // Floating data nodes
+        // Nodes stay outside center (photo occupies inner 22% radius)
         const nodes = [];
         for (let i = 0; i < 30; i++) {
             nodes.push({
                 angle: Math.random() * Math.PI * 2,
-                dist: 0.08 + Math.random() * 0.35,
+                dist: 0.24 + Math.random() * 0.24,
                 speed: (Math.random() - 0.5) * 0.001,
                 size: Math.random() * 2.5 + 0.8,
                 alpha: Math.random() * 0.4 + 0.1,
@@ -157,10 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const mx = (orbMouse.x - 0.5) * 15;
             const my = (orbMouse.y - 0.5) * 15;
 
-            // Core glow
-            const coreGrad = octx.createRadialGradient(cx + mx * 0.5, cy + my * 0.5, 0, cx, cy, maxR * 0.5);
-            coreGrad.addColorStop(0, 'rgba(0, 212, 255, 0.12)');
-            coreGrad.addColorStop(0.5, 'rgba(124, 58, 237, 0.06)');
+            // Subtle outer glow (keep center clear for photo)
+            const coreGrad = octx.createRadialGradient(cx, cy, maxR * 0.22, cx, cy, maxR * 0.5);
+            coreGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+            coreGrad.addColorStop(0.3, 'rgba(0, 212, 255, 0.04)');
+            coreGrad.addColorStop(0.7, 'rgba(124, 58, 237, 0.03)');
             coreGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
             octx.fillStyle = coreGrad;
             octx.beginPath();
@@ -378,7 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
           .from('.hero-desc', { y: 20, opacity: 0, duration: 0.5 }, '-=0.2')
           .from('.company-strip', { y: 15, opacity: 0, duration: 0.4 }, '-=0.2')
           .from('.hero-ctas', { y: 15, opacity: 0, duration: 0.4 }, '-=0.1')
-          .from('#orb-canvas', { scale: 0.6, opacity: 0, duration: 1.2, ease: 'elastic.out(1, 0.5)' }, 0.4)
+          .from('.orb-wrapper', { scale: 0.6, opacity: 0, duration: 1.2, ease: 'elastic.out(1, 0.5)' }, 0.4)
+          .from('.profile-ring', { scale: 0, opacity: 0, duration: 0.8, ease: 'back.out(2)' }, 0.9)
           .from('.float-card-1', { x: 60, opacity: 0, duration: 0.5 }, '-=0.6')
           .from('.float-card-2', { x: -60, opacity: 0, duration: 0.5 }, '-=0.4')
           .from('.float-card-3', { x: 60, opacity: 0, duration: 0.5 }, '-=0.3')
