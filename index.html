@@ -721,37 +721,97 @@
 
     <!-- ============ CHATBOT ============ -->
     <button class="chat-toggle" id="chat-toggle" aria-label="Open chat">
-        <i data-lucide="message-circle" class="chat-toggle-icon"></i>
-        <span class="chat-toggle-label">Ask me anything</span>
+        <div class="chat-toggle-inner">
+            <svg class="chat-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <span class="chat-toggle-badge">Ask me anything</span>
         <span class="chat-pulse"></span>
     </button>
 
     <div class="chat-panel" id="chat-panel">
-        <div class="chat-header">
-            <div class="chat-header-info">
-                <div class="chat-avatar">PV</div>
-                <div>
-                    <div class="chat-header-name">Praneeth's Assistant</div>
-                    <div class="chat-header-status"><span class="status-dot"></span> Online</div>
+        <div class="chat-panel-glow"></div>
+        <div class="chat-panel-border"></div>
+        <div class="chat-panel-inner">
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="chat-header-accent"></div>
+                <div class="chat-header-content">
+                    <div class="chat-header-info">
+                        <div class="chat-avatar">
+                            <img src="profile.jpg" alt="PV" class="chat-avatar-img">
+                            <span class="chat-avatar-status"></span>
+                        </div>
+                        <div>
+                            <div class="chat-header-name">Praneeth's AI Assistant</div>
+                            <div class="chat-header-status">Ask me about experience, skills & more</div>
+                        </div>
+                    </div>
+                    <button class="chat-close" id="chat-close" aria-label="Close chat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
                 </div>
             </div>
-            <button class="chat-close" id="chat-close" aria-label="Close chat">
-                <i data-lucide="x"></i>
-            </button>
+
+            <!-- Welcome Screen -->
+            <div class="chat-welcome" id="chat-welcome">
+                <div class="chat-welcome-orb">
+                    <svg viewBox="0 0 120 120" class="welcome-rings">
+                        <circle cx="60" cy="60" r="50" class="welcome-ring ring-1"/>
+                        <circle cx="60" cy="60" r="40" class="welcome-ring ring-2"/>
+                        <circle cx="60" cy="60" r="30" class="welcome-ring ring-3"/>
+                    </svg>
+                    <div class="chat-welcome-avatar">
+                        <img src="profile.jpg" alt="PV">
+                    </div>
+                </div>
+                <h3 class="chat-welcome-title">Hi, I'm Praneeth's assistant</h3>
+                <p class="chat-welcome-desc">I can tell you about his experience at Google, Amazon, Microsoft & Intuit, his skills, projects, and more.</p>
+                <div class="chat-welcome-cards" id="chat-welcome-cards">
+                    <button class="welcome-card" data-q="Tell me about Praneeth">
+                        <span class="welcome-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </span>
+                        <span class="welcome-card-text">About Praneeth</span>
+                    </button>
+                    <button class="welcome-card" data-q="What's your experience?">
+                        <span class="welcome-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                        </span>
+                        <span class="welcome-card-text">Experience</span>
+                    </button>
+                    <button class="welcome-card" data-q="What skills do you have?">
+                        <span class="welcome-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </span>
+                        <span class="welcome-card-text">Skills & Tools</span>
+                    </button>
+                    <button class="welcome-card" data-q="How can I contact you?">
+                        <span class="welcome-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </span>
+                        <span class="welcome-card-text">Get in Touch</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="chat-messages" id="chat-messages"></div>
+
+            <!-- Context Suggestions -->
+            <div class="chat-suggestions" id="chat-suggestions">
+                <button class="suggestion-chip" data-q="Tell me about your work at Google"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Google</button>
+                <button class="suggestion-chip" data-q="What are your ventures?"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-icon"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Ventures</button>
+                <button class="suggestion-chip" data-q="Download resume"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chip-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Resume</button>
+            </div>
+
+            <!-- Input -->
+            <form class="chat-input-form" id="chat-form">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Type your question..." autocomplete="off">
+                <button type="submit" class="chat-send" id="chat-send" aria-label="Send">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
+            </form>
         </div>
-        <div class="chat-messages" id="chat-messages"></div>
-        <div class="chat-suggestions" id="chat-suggestions">
-            <button class="suggestion-chip" data-q="What's your experience?">Experience</button>
-            <button class="suggestion-chip" data-q="What skills do you have?">Skills</button>
-            <button class="suggestion-chip" data-q="Tell me about your work at Google">Google</button>
-            <button class="suggestion-chip" data-q="How can I contact you?">Contact</button>
-        </div>
-        <form class="chat-input-form" id="chat-form">
-            <input type="text" class="chat-input" id="chat-input" placeholder="Ask about my experience, skills, projects..." autocomplete="off">
-            <button type="submit" class="chat-send" aria-label="Send">
-                <i data-lucide="send"></i>
-            </button>
-        </form>
     </div>
 
     <script src="script.js"></script>
