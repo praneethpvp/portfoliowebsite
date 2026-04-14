@@ -1,6 +1,6 @@
 /* ============================================
-   PRANEETH VARMA — PORTFOLIO 2026
-   Interactive Script: Particles, Animations, Counters
+   PRANEETH VARMA — PORTFOLIO 2026 v2
+   Orb, Particles, Tilt, GSAP, Counters, Radar
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let width, height, particles, mouse, animId;
-
         mouse = { x: -1000, y: -1000 };
 
         function resize() {
@@ -21,35 +20,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         resize();
         window.addEventListener('resize', resize);
-
-        document.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
+        document.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.radius = Math.random() * 2 + 0.5;
-                this.baseAlpha = Math.random() * 0.5 + 0.2;
+                this.vx = (Math.random() - 0.5) * 0.35;
+                this.vy = (Math.random() - 0.5) * 0.35;
+                this.radius = Math.random() * 1.8 + 0.5;
+                this.baseAlpha = Math.random() * 0.4 + 0.15;
             }
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
                 if (this.x < 0 || this.x > width) this.vx *= -1;
                 if (this.y < 0 || this.y > height) this.vy *= -1;
-
-                // Mouse repulsion
-                const dx = this.x - mouse.x;
-                const dy = this.y - mouse.y;
+                const dx = this.x - mouse.x, dy = this.y - mouse.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 120) {
-                    const force = (120 - dist) / 120;
-                    this.x += (dx / dist) * force * 2;
-                    this.y += (dy / dist) * force * 2;
+                if (dist < 100) {
+                    const force = (100 - dist) / 100;
+                    this.x += (dx / dist) * force * 1.5;
+                    this.y += (dy / dist) * force * 1.5;
                 }
             }
             draw() {
@@ -61,24 +53,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function initParticles() {
-            const count = Math.min(Math.floor((width * height) / 12000), 150);
+            const count = Math.min(Math.floor((width * height) / 14000), 120);
             particles = Array.from({ length: count }, () => new Particle());
         }
         initParticles();
 
         function drawConnections() {
-            const maxDist = 150;
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < maxDist) {
-                        const alpha = (1 - dist / maxDist) * 0.15;
+                    if (dist < 140) {
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
+                        ctx.strokeStyle = `rgba(0, 212, 255, ${(1 - dist / 140) * 0.12})`;
                         ctx.lineWidth = 0.5;
                         ctx.stroke();
                     }
@@ -86,40 +76,213 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Fade particles based on scroll
-        let canvasOpacity = 1;
         function updateCanvasOpacity() {
-            const scrollY = window.scrollY;
-            canvasOpacity = Math.max(0, 1 - scrollY / (window.innerHeight * 0.8));
-            canvas.style.opacity = canvasOpacity;
+            canvas.style.opacity = Math.max(0, 1 - window.scrollY / (window.innerHeight * 0.8));
         }
         window.addEventListener('scroll', updateCanvasOpacity, { passive: true });
 
-        function animate() {
+        function animateParticles() {
             ctx.clearRect(0, 0, width, height);
             particles.forEach(p => { p.update(); p.draw(); });
             drawConnections();
-            animId = requestAnimationFrame(animate);
+            animId = requestAnimationFrame(animateParticles);
         }
-        animate();
+        animateParticles();
 
-        // Reinit particles on resize
         window.addEventListener('resize', () => {
             cancelAnimationFrame(animId);
             initParticles();
-            animate();
+            animateParticles();
         });
     }
 
     // ============================
-    // 2. LUCIDE ICONS
+    // 2. HERO ORB CANVAS
+    // ============================
+    const orbCanvas = document.getElementById('orb-canvas');
+    if (orbCanvas) {
+        const octx = orbCanvas.getContext('2d');
+        let ow, oh, orbMouse = { x: 0.5, y: 0.5 };
+
+        function resizeOrb() {
+            const rect = orbCanvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            ow = rect.width;
+            oh = rect.height;
+            orbCanvas.width = ow * dpr;
+            orbCanvas.height = oh * dpr;
+            octx.scale(dpr, dpr);
+        }
+        resizeOrb();
+        window.addEventListener('resize', resizeOrb);
+
+        orbCanvas.style.pointerEvents = 'none';
+        document.addEventListener('mousemove', (e) => {
+            const rect = orbCanvas.getBoundingClientRect();
+            orbMouse.x = (e.clientX - rect.left) / rect.width;
+            orbMouse.y = (e.clientY - rect.top) / rect.height;
+        });
+
+        // Orbital rings with data points
+        const rings = [
+            { radius: 0.38, speed: 0.0004, dots: 12, dotSize: 2.5, color: [0, 212, 255], opacity: 0.6 },
+            { radius: 0.32, speed: -0.0003, dots: 8, dotSize: 2, color: [124, 58, 237], opacity: 0.5 },
+            { radius: 0.26, speed: 0.0005, dots: 6, dotSize: 3, color: [16, 185, 129], opacity: 0.45 },
+            { radius: 0.44, speed: -0.00025, dots: 16, dotSize: 1.8, color: [0, 212, 255], opacity: 0.3 },
+        ];
+
+        // Floating data nodes
+        const nodes = [];
+        for (let i = 0; i < 30; i++) {
+            nodes.push({
+                angle: Math.random() * Math.PI * 2,
+                dist: 0.08 + Math.random() * 0.35,
+                speed: (Math.random() - 0.5) * 0.001,
+                size: Math.random() * 2.5 + 0.8,
+                alpha: Math.random() * 0.4 + 0.1,
+                pulse: Math.random() * Math.PI * 2,
+                pulseSpeed: 0.01 + Math.random() * 0.02,
+            });
+        }
+
+        let orbTime = 0;
+        function drawOrb() {
+            octx.clearRect(0, 0, ow, oh);
+            const cx = ow / 2;
+            const cy = oh / 2;
+            const maxR = Math.min(ow, oh) / 2;
+            orbTime++;
+
+            // Mouse offset for parallax feel
+            const mx = (orbMouse.x - 0.5) * 15;
+            const my = (orbMouse.y - 0.5) * 15;
+
+            // Core glow
+            const coreGrad = octx.createRadialGradient(cx + mx * 0.5, cy + my * 0.5, 0, cx, cy, maxR * 0.5);
+            coreGrad.addColorStop(0, 'rgba(0, 212, 255, 0.12)');
+            coreGrad.addColorStop(0.5, 'rgba(124, 58, 237, 0.06)');
+            coreGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            octx.fillStyle = coreGrad;
+            octx.beginPath();
+            octx.arc(cx, cy, maxR * 0.5, 0, Math.PI * 2);
+            octx.fill();
+
+            // Outer halo pulse
+            const haloSize = maxR * (0.48 + Math.sin(orbTime * 0.015) * 0.02);
+            const haloGrad = octx.createRadialGradient(cx, cy, haloSize * 0.85, cx, cy, haloSize);
+            haloGrad.addColorStop(0, 'rgba(0, 212, 255, 0)');
+            haloGrad.addColorStop(0.7, 'rgba(0, 212, 255, 0.04)');
+            haloGrad.addColorStop(1, 'rgba(0, 212, 255, 0)');
+            octx.fillStyle = haloGrad;
+            octx.beginPath();
+            octx.arc(cx, cy, haloSize, 0, Math.PI * 2);
+            octx.fill();
+
+            // Draw rings
+            rings.forEach(ring => {
+                const r = maxR * ring.radius;
+                ring._angle = (ring._angle || 0) + ring.speed;
+
+                // Ring line
+                octx.beginPath();
+                octx.arc(cx + mx * 0.3, cy + my * 0.3, r, 0, Math.PI * 2);
+                octx.strokeStyle = `rgba(${ring.color.join(',')}, ${ring.opacity * 0.2})`;
+                octx.lineWidth = 0.8;
+                octx.stroke();
+
+                // Dots on ring
+                for (let i = 0; i < ring.dots; i++) {
+                    const a = ring._angle + (i / ring.dots) * Math.PI * 2;
+                    const px = cx + mx * 0.3 + Math.cos(a) * r;
+                    const py = cy + my * 0.3 + Math.sin(a) * r;
+                    const pulse = 0.6 + Math.sin(orbTime * 0.03 + i) * 0.4;
+
+                    octx.beginPath();
+                    octx.arc(px, py, ring.dotSize * pulse, 0, Math.PI * 2);
+                    octx.fillStyle = `rgba(${ring.color.join(',')}, ${ring.opacity * pulse})`;
+                    octx.fill();
+
+                    // Glow on larger dots
+                    if (ring.dotSize > 2) {
+                        octx.beginPath();
+                        octx.arc(px, py, ring.dotSize * 3, 0, Math.PI * 2);
+                        const g = octx.createRadialGradient(px, py, 0, px, py, ring.dotSize * 3);
+                        g.addColorStop(0, `rgba(${ring.color.join(',')}, ${ring.opacity * 0.3})`);
+                        g.addColorStop(1, `rgba(${ring.color.join(',')}, 0)`);
+                        octx.fillStyle = g;
+                        octx.fill();
+                    }
+                }
+
+                // Connections between adjacent dots on ring
+                for (let i = 0; i < ring.dots; i++) {
+                    const a1 = ring._angle + (i / ring.dots) * Math.PI * 2;
+                    const a2 = ring._angle + ((i + 1) / ring.dots) * Math.PI * 2;
+                    if (Math.random() > 0.7) {
+                        const x1 = cx + mx * 0.3 + Math.cos(a1) * r;
+                        const y1 = cy + my * 0.3 + Math.sin(a1) * r;
+                        const x2 = cx + mx * 0.3 + Math.cos(a2) * r;
+                        const y2 = cy + my * 0.3 + Math.sin(a2) * r;
+                        octx.beginPath();
+                        octx.moveTo(x1, y1);
+                        octx.lineTo(x2, y2);
+                        octx.strokeStyle = `rgba(${ring.color.join(',')}, ${ring.opacity * 0.1})`;
+                        octx.lineWidth = 0.5;
+                        octx.stroke();
+                    }
+                }
+            });
+
+            // Draw floating nodes
+            nodes.forEach(node => {
+                node.angle += node.speed;
+                node.pulse += node.pulseSpeed;
+                const r = maxR * node.dist;
+                const nx = cx + mx * 0.2 + Math.cos(node.angle) * r;
+                const ny = cy + my * 0.2 + Math.sin(node.angle) * r;
+                const sz = node.size * (0.7 + Math.sin(node.pulse) * 0.3);
+
+                octx.beginPath();
+                octx.arc(nx, ny, sz, 0, Math.PI * 2);
+                octx.fillStyle = `rgba(0, 212, 255, ${node.alpha * (0.5 + Math.sin(node.pulse) * 0.5)})`;
+                octx.fill();
+            });
+
+            // Cross-ring connections (sparse, dynamic)
+            if (orbTime % 3 === 0) {
+                for (let i = 0; i < 3; i++) {
+                    const r1 = rings[Math.floor(Math.random() * rings.length)];
+                    const r2 = rings[Math.floor(Math.random() * rings.length)];
+                    if (r1 === r2) continue;
+                    const a1 = (r1._angle || 0) + Math.random() * Math.PI * 2;
+                    const a2 = (r2._angle || 0) + Math.random() * Math.PI * 2;
+                    const x1 = cx + Math.cos(a1) * maxR * r1.radius;
+                    const y1 = cy + Math.sin(a1) * maxR * r1.radius;
+                    const x2 = cx + Math.cos(a2) * maxR * r2.radius;
+                    const y2 = cy + Math.sin(a2) * maxR * r2.radius;
+                    octx.beginPath();
+                    octx.moveTo(x1, y1);
+                    octx.lineTo(x2, y2);
+                    octx.strokeStyle = `rgba(0, 212, 255, 0.04)`;
+                    octx.lineWidth = 0.5;
+                    octx.stroke();
+                }
+            }
+
+            requestAnimationFrame(drawOrb);
+        }
+        drawOrb();
+    }
+
+    // ============================
+    // 3. LUCIDE ICONS
     // ============================
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
 
     // ============================
-    // 3. ROTATING TAGLINE
+    // 4. ROTATING TAGLINE
     // ============================
     const rotatingEl = document.getElementById('rotating-text');
     if (rotatingEl) {
@@ -127,52 +290,39 @@ document.addEventListener('DOMContentLoaded', () => {
             'turn data into decisions.',
             'build products with AI.',
             'find the signal in the noise.',
+            'design experiments that matter.',
             'drive strategy at scale.'
         ];
-        let phraseIdx = 0;
-        let charIdx = 0;
-        let isDeleting = false;
-        let typingSpeed = 80;
+        let phraseIdx = 0, charIdx = 0, isDeleting = false, typingSpeed = 80;
 
         function typePhrase() {
             const currentPhrase = phrases[phraseIdx];
-            if (isDeleting) {
-                charIdx--;
-                typingSpeed = 40;
-            } else {
-                charIdx++;
-                typingSpeed = 80;
-            }
+            if (isDeleting) { charIdx--; typingSpeed = 35; }
+            else { charIdx++; typingSpeed = 70; }
 
             rotatingEl.textContent = currentPhrase.substring(0, charIdx);
 
             if (!isDeleting && charIdx === currentPhrase.length) {
-                typingSpeed = 2000; // Pause at end
+                typingSpeed = 2200;
                 isDeleting = true;
             } else if (isDeleting && charIdx === 0) {
                 isDeleting = false;
                 phraseIdx = (phraseIdx + 1) % phrases.length;
-                typingSpeed = 300; // Pause before next
+                typingSpeed = 400;
             }
-
             setTimeout(typePhrase, typingSpeed);
         }
-        setTimeout(typePhrase, 1000);
+        setTimeout(typePhrase, 800);
     }
 
     // ============================
-    // 4. NAVBAR
+    // 5. NAVBAR
     // ============================
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
     }, { passive: true });
 
-    // Mobile menu
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('nav-links');
     if (hamburger && navLinks) {
@@ -188,217 +338,119 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                const offset = 80;
-                const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                const top = target.getBoundingClientRect().top + window.scrollY - 80;
                 window.scrollTo({ top, behavior: 'smooth' });
             }
         });
     });
 
     // ============================
-    // 5. GSAP SCROLL ANIMATIONS
+    // 6. 3D TILT ENGINE
+    // ============================
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(800px) rotateY(0) rotateX(0) translateY(0)';
+        });
+    });
+
+    // ============================
+    // 7. GSAP SCROLL ANIMATIONS
     // ============================
     function initGSAP() {
         gsap.registerPlugin(ScrollTrigger);
 
+        // Hero entrance
+        const tl = gsap.timeline({ delay: 0.3 });
+        tl.from('.eyebrow', { y: 20, opacity: 0, duration: 0.5 })
+          .from('.hero-name', { y: 30, opacity: 0, duration: 0.7 }, '-=0.2')
+          .from('.hero-tagline', { y: 20, opacity: 0, duration: 0.5 }, '-=0.3')
+          .from('.hero-desc', { y: 20, opacity: 0, duration: 0.5 }, '-=0.2')
+          .from('.company-strip', { y: 15, opacity: 0, duration: 0.4 }, '-=0.2')
+          .from('.hero-ctas', { y: 15, opacity: 0, duration: 0.4 }, '-=0.1')
+          .from('#orb-canvas', { scale: 0.6, opacity: 0, duration: 1.2, ease: 'elastic.out(1, 0.5)' }, 0.4)
+          .from('.float-card-1', { x: 60, opacity: 0, duration: 0.5 }, '-=0.6')
+          .from('.float-card-2', { x: -60, opacity: 0, duration: 0.5 }, '-=0.4')
+          .from('.float-card-3', { x: 60, opacity: 0, duration: 0.5 }, '-=0.3')
+          .from('.float-card-4', { x: -60, opacity: 0, duration: 0.5 }, '-=0.3');
+
         // Section headers
         gsap.utils.toArray('.section-header').forEach(header => {
             gsap.from(header, {
-                y: 40,
-                opacity: 0,
-                duration: 0.8,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: header,
-                    start: 'top 85%',
-                    once: true
-                }
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: header, start: 'top 85%', once: true }
             });
         });
 
-        // Impact cards — stagger
-        gsap.utils.toArray('.impact-card').forEach((card, i) => {
-            gsap.from(card, {
-                y: 50,
-                opacity: 0,
-                duration: 0.6,
-                delay: i * 0.1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 90%',
-                    once: true
-                }
+        // Staggered cards for each section
+        const staggerSets = [
+            { sel: '.impact-card', y: 50, delay: 0.08 },
+            { sel: '.timeline-card', x: -40, delay: 0.1 },
+            { sel: '.case-card', y: 60, delay: 0.12 },
+            { sel: '.skill-group', y: 30, delay: 0.08 },
+            { sel: '.venture-card', y: 50, delay: 0.12 },
+            { sel: '.github-card', y: 40, delay: 0.1 },
+            { sel: '.sidebar-card', y: 40, delay: 0.12 },
+            { sel: '.cert-card', y: 30, delay: 0.08 },
+        ];
+
+        staggerSets.forEach(({ sel, y, x, delay }) => {
+            gsap.utils.toArray(sel).forEach((el, i) => {
+                gsap.from(el, {
+                    y: y || 0, x: x || 0, opacity: 0,
+                    duration: 0.6, delay: i * delay,
+                    ease: 'power3.out',
+                    scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+                });
             });
         });
 
-        // Timeline cards — slide in from left
-        gsap.utils.toArray('.timeline-card').forEach((card, i) => {
-            gsap.from(card, {
-                x: -40,
-                opacity: 0,
-                duration: 0.7,
-                delay: i * 0.1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 85%',
-                    once: true
-                }
-            });
-        });
-
-        // Case study cards
-        gsap.utils.toArray('.case-card').forEach((card, i) => {
-            gsap.from(card, {
-                y: 60,
-                opacity: 0,
-                duration: 0.7,
-                delay: i * 0.15,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 85%',
-                    once: true
-                }
-            });
-        });
-
-        // Skill groups
-        gsap.utils.toArray('.skill-group').forEach((group, i) => {
-            gsap.from(group, {
-                y: 30,
-                opacity: 0,
-                duration: 0.5,
-                delay: i * 0.1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: group,
-                    start: 'top 90%',
-                    once: true
-                }
-            });
-        });
-
-        // Venture cards
-        gsap.utils.toArray('.venture-card').forEach((card, i) => {
-            gsap.from(card, {
-                y: 50,
-                opacity: 0,
-                duration: 0.6,
-                delay: i * 0.15,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 85%',
-                    once: true
-                }
-            });
-        });
-
-        // GitHub cards
-        gsap.utils.toArray('.github-card').forEach((card, i) => {
-            gsap.from(card, {
-                y: 40,
-                opacity: 0,
-                duration: 0.6,
-                delay: i * 0.1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 90%',
-                    once: true
-                }
-            });
-        });
-
-        // About section
+        // About narrative
         const aboutNarrative = document.querySelector('.about-narrative');
         if (aboutNarrative) {
             gsap.from(aboutNarrative, {
-                y: 40,
-                opacity: 0,
-                duration: 0.8,
-                ease: 'power3.out',
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
                 scrollTrigger: { trigger: aboutNarrative, start: 'top 85%', once: true }
             });
         }
-        gsap.utils.toArray('.sidebar-card').forEach((card, i) => {
-            gsap.from(card, {
-                y: 40,
-                opacity: 0,
-                duration: 0.6,
-                delay: i * 0.15,
-                ease: 'power3.out',
-                scrollTrigger: { trigger: card, start: 'top 90%', once: true }
-            });
-        });
 
-        // Degree + certs
+        // Degree card
         const degreeCard = document.querySelector('.degree-card');
         if (degreeCard) {
             gsap.from(degreeCard, {
-                y: 40,
-                opacity: 0,
-                duration: 0.7,
-                ease: 'power3.out',
+                y: 40, opacity: 0, duration: 0.7, ease: 'power3.out',
                 scrollTrigger: { trigger: degreeCard, start: 'top 85%', once: true }
             });
         }
-        gsap.utils.toArray('.cert-card').forEach((card, i) => {
-            gsap.from(card, {
-                y: 30,
-                opacity: 0,
-                duration: 0.5,
-                delay: i * 0.1,
-                ease: 'power3.out',
-                scrollTrigger: { trigger: card, start: 'top 90%', once: true }
-            });
-        });
 
-        // Contact section
+        // Contact
         const contactContent = document.querySelector('.contact-content');
         if (contactContent) {
             gsap.from(contactContent, {
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                ease: 'power3.out',
+                y: 50, opacity: 0, duration: 0.8, ease: 'power3.out',
                 scrollTrigger: { trigger: contactContent, start: 'top 85%', once: true }
             });
         }
-
-        // Hero entrance
-        gsap.from('.eyebrow', { y: 20, opacity: 0, duration: 0.6, delay: 0.2 });
-        gsap.from('.hero-name', { y: 30, opacity: 0, duration: 0.8, delay: 0.4 });
-        gsap.from('.hero-tagline', { y: 20, opacity: 0, duration: 0.6, delay: 0.7 });
-        gsap.from('.hero-desc', { y: 20, opacity: 0, duration: 0.6, delay: 0.9 });
-        gsap.from('.company-strip', { y: 20, opacity: 0, duration: 0.6, delay: 1.0 });
-        gsap.from('.hero-ctas', { y: 20, opacity: 0, duration: 0.6, delay: 1.1 });
-        gsap.from('.profile-photo-wrapper', { scale: 0.8, opacity: 0, duration: 1, delay: 0.5, ease: 'back.out(1.5)' });
-        gsap.from('.float-card-1', { x: 50, opacity: 0, duration: 0.6, delay: 1.2 });
-        gsap.from('.float-card-2', { x: -50, opacity: 0, duration: 0.6, delay: 1.3 });
-        gsap.from('.float-card-3', { x: 50, opacity: 0, duration: 0.6, delay: 1.4 });
     }
 
-    // Wait for GSAP to load (deferred)
     function waitForGSAP() {
-        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            initGSAP();
-        } else {
-            setTimeout(waitForGSAP, 100);
-        }
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') initGSAP();
+        else setTimeout(waitForGSAP, 100);
     }
     waitForGSAP();
 
     // ============================
-    // 6. COUNTER ANIMATIONS
+    // 8. COUNTER ANIMATIONS
     // ============================
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -408,56 +460,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 const suffix = el.dataset.suffix || '';
                 const duration = 2000;
                 const start = performance.now();
-
                 function tick(now) {
-                    const elapsed = now - start;
-                    const progress = Math.min(elapsed / duration, 1);
-                    // Ease out cubic
+                    const progress = Math.min((now - start) / duration, 1);
                     const eased = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.floor(eased * target);
-                    el.textContent = current + suffix;
-                    if (progress < 1) {
-                        requestAnimationFrame(tick);
-                    } else {
-                        el.textContent = target + suffix;
-                    }
+                    el.textContent = Math.floor(eased * target) + suffix;
+                    if (progress < 1) requestAnimationFrame(tick);
+                    else el.textContent = target + suffix;
                 }
                 requestAnimationFrame(tick);
                 counterObserver.unobserve(el);
             }
         });
     }, { threshold: 0.5 });
-
-    document.querySelectorAll('.impact-number').forEach(el => {
-        counterObserver.observe(el);
-    });
+    document.querySelectorAll('.impact-number').forEach(el => counterObserver.observe(el));
 
     // ============================
-    // 7. METRIC BARS ANIMATION
+    // 9. METRIC BARS
     // ============================
     const barObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const bar = entry.target;
-                const targetWidth = bar.dataset.width;
-                bar.style.setProperty('--bar-width', targetWidth);
-                // Ensure browser paints width:0 before triggering transition
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        bar.classList.add('animated');
-                    });
-                });
+                bar.style.setProperty('--bar-width', bar.dataset.width);
+                requestAnimationFrame(() => requestAnimationFrame(() => bar.classList.add('animated')));
                 barObserver.unobserve(bar);
             }
         });
     }, { threshold: 0.3 });
-
-    document.querySelectorAll('.metric-bar').forEach(bar => {
-        barObserver.observe(bar);
-    });
+    document.querySelectorAll('.metric-bar').forEach(bar => barObserver.observe(bar));
 
     // ============================
-    // 8. RADAR CHART
+    // 10. RADAR CHART
     // ============================
     const radarSvg = document.getElementById('radar-chart');
     if (radarSvg) {
@@ -473,133 +506,82 @@ document.addEventListener('DOMContentLoaded', () => {
         const angleStep = (2 * Math.PI) / n;
         const startAngle = -Math.PI / 2;
 
-        function polarToCart(angle, radius) {
-            return {
-                x: cx + radius * Math.cos(angle),
-                y: cy + radius * Math.sin(angle)
-            };
+        function polarToCart(a, r) {
+            return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
         }
 
-        // Draw grid rings
+        // Grid
         [0.25, 0.5, 0.75, 1].forEach(frac => {
-            const r = maxR * frac;
-            const points = [];
-            for (let i = 0; i < n; i++) {
-                const a = startAngle + i * angleStep;
-                const p = polarToCart(a, r);
-                points.push(`${p.x},${p.y}`);
-            }
-            const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-            polygon.setAttribute('points', points.join(' '));
-            polygon.setAttribute('fill', 'none');
-            polygon.setAttribute('stroke', 'rgba(255,255,255,0.06)');
-            polygon.setAttribute('stroke-width', '1');
-            radarSvg.appendChild(polygon);
+            const pts = [];
+            for (let i = 0; i < n; i++) pts.push(polarToCart(startAngle + i * angleStep, maxR * frac));
+            const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            poly.setAttribute('points', pts.map(p => `${p.x},${p.y}`).join(' '));
+            poly.setAttribute('fill', 'none');
+            poly.setAttribute('stroke', 'rgba(255,255,255,0.06)');
+            poly.setAttribute('stroke-width', '1');
+            radarSvg.appendChild(poly);
         });
 
-        // Draw axes
+        // Axes
         for (let i = 0; i < n; i++) {
-            const a = startAngle + i * angleStep;
-            const p = polarToCart(a, maxR);
+            const p = polarToCart(startAngle + i * angleStep, maxR);
             const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute('x1', cx);
-            line.setAttribute('y1', cy);
-            line.setAttribute('x2', p.x);
-            line.setAttribute('y2', p.y);
+            line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+            line.setAttribute('x2', p.x); line.setAttribute('y2', p.y);
             line.setAttribute('stroke', 'rgba(255,255,255,0.06)');
-            line.setAttribute('stroke-width', '1');
             radarSvg.appendChild(line);
         }
 
-        // Draw data polygon
-        const dataPoints = categories.map((cat, i) => {
-            const a = startAngle + i * angleStep;
-            return polarToCart(a, maxR * cat.value);
-        });
-        const dataPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-        dataPolygon.setAttribute('points', dataPoints.map(p => `${p.x},${p.y}`).join(' '));
-        dataPolygon.setAttribute('fill', 'rgba(0, 212, 255, 0.1)');
-        dataPolygon.setAttribute('stroke', 'rgba(0, 212, 255, 0.6)');
-        dataPolygon.setAttribute('stroke-width', '2');
-        dataPolygon.classList.add('radar-data');
-        radarSvg.appendChild(dataPolygon);
+        // Data
+        const dataPoints = categories.map((cat, i) => polarToCart(startAngle + i * angleStep, maxR * cat.value));
+        const dataPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        dataPoly.setAttribute('points', dataPoints.map(p => `${p.x},${p.y}`).join(' '));
+        dataPoly.setAttribute('fill', 'rgba(0, 212, 255, 0.1)');
+        dataPoly.setAttribute('stroke', 'rgba(0, 212, 255, 0.6)');
+        dataPoly.setAttribute('stroke-width', '2');
+        radarSvg.appendChild(dataPoly);
 
-        // Draw data points
-        dataPoints.forEach((p, i) => {
-            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            circle.setAttribute('cx', p.x);
-            circle.setAttribute('cy', p.y);
-            circle.setAttribute('r', '4');
-            circle.setAttribute('fill', categories[i].color);
-            circle.setAttribute('stroke', '#050510');
-            circle.setAttribute('stroke-width', '2');
-            radarSvg.appendChild(circle);
+        const dots = dataPoints.map((p, i) => {
+            const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            c.setAttribute('cx', p.x); c.setAttribute('cy', p.y);
+            c.setAttribute('r', '4'); c.setAttribute('fill', categories[i].color);
+            c.setAttribute('stroke', '#050510'); c.setAttribute('stroke-width', '2');
+            radarSvg.appendChild(c);
+            return c;
         });
 
         // Labels
         categories.forEach((cat, i) => {
-            const a = startAngle + i * angleStep;
-            const labelR = maxR + 22;
-            const p = polarToCart(a, labelR);
-            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            text.setAttribute('x', p.x);
-            text.setAttribute('y', p.y);
-            text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('dominant-baseline', 'central');
-            text.setAttribute('fill', '#8888aa');
-            text.setAttribute('font-size', '11');
-            text.setAttribute('font-family', 'Space Grotesk, sans-serif');
-            text.textContent = cat.name;
-            radarSvg.appendChild(text);
+            const p = polarToCart(startAngle + i * angleStep, maxR + 22);
+            const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            t.setAttribute('x', p.x); t.setAttribute('y', p.y);
+            t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'central');
+            t.setAttribute('fill', '#8888aa'); t.setAttribute('font-size', '11');
+            t.setAttribute('font-family', 'Space Grotesk, sans-serif');
+            t.textContent = cat.name;
+            radarSvg.appendChild(t);
         });
 
-        // Animate radar on scroll — JS interpolation since SVG points can't CSS-transition
+        // Animate
         function animateRadar() {
-            const duration = 1200;
-            const start = performance.now();
-            const centerPoints = categories.map(() => ({ x: cx, y: cy }));
-            const targetPoints = dataPoints;
-
-            // Ease out back
+            const duration = 1200, start = performance.now();
+            const center = categories.map(() => ({ x: cx, y: cy }));
             function easeOutBack(t) {
-                const c1 = 1.70158;
-                const c3 = c1 + 1;
-                return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+                return 1 + 2.70158 * Math.pow(t - 1, 3) + 1.70158 * Math.pow(t - 1, 2);
             }
-
             function tick(now) {
-                const elapsed = now - start;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = easeOutBack(progress);
-
-                const currentPoints = centerPoints.map((cp, i) => ({
-                    x: cp.x + (targetPoints[i].x - cp.x) * eased,
-                    y: cp.y + (targetPoints[i].y - cp.y) * eased
+                const progress = Math.min((now - start) / duration, 1);
+                const e = easeOutBack(progress);
+                const cur = center.map((c, i) => ({
+                    x: c.x + (dataPoints[i].x - c.x) * e,
+                    y: c.y + (dataPoints[i].y - c.y) * e
                 }));
-
-                dataPolygon.setAttribute('points',
-                    currentPoints.map(p => `${p.x},${p.y}`).join(' ')
-                );
-
-                // Also animate dot circles
-                const dots = radarSvg.querySelectorAll('circle');
-                dots.forEach((dot, i) => {
-                    if (i < currentPoints.length) {
-                        dot.setAttribute('cx', currentPoints[i].x);
-                        dot.setAttribute('cy', currentPoints[i].y);
-                    }
-                });
-
+                dataPoly.setAttribute('points', cur.map(p => `${p.x},${p.y}`).join(' '));
+                dots.forEach((d, i) => { d.setAttribute('cx', cur[i].x); d.setAttribute('cy', cur[i].y); });
                 if (progress < 1) requestAnimationFrame(tick);
             }
-
-            // Start from center
-            dataPolygon.setAttribute('points', centerPoints.map(p => `${p.x},${p.y}`).join(' '));
-            radarSvg.querySelectorAll('circle').forEach(dot => {
-                dot.setAttribute('cx', cx);
-                dot.setAttribute('cy', cy);
-            });
-
+            dataPoly.setAttribute('points', center.map(p => `${p.x},${p.y}`).join(' '));
+            dots.forEach(d => { d.setAttribute('cx', cx); d.setAttribute('cy', cy); });
             requestAnimationFrame(tick);
         }
 
@@ -615,23 +597,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================
-    // 9. ACTIVE NAV HIGHLIGHT
+    // 11. ACTIVE NAV HIGHLIGHT
     // ============================
     const sections = document.querySelectorAll('section[id]');
     const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
-
     function highlightNav() {
         const scrollY = window.scrollY + 150;
         sections.forEach(section => {
-            const top = section.offsetTop;
-            const height = section.offsetHeight;
+            const top = section.offsetTop, height = section.offsetHeight;
             const id = section.getAttribute('id');
             if (scrollY >= top && scrollY < top + height) {
                 navAnchors.forEach(a => {
-                    a.classList.remove('active-nav');
-                    if (a.getAttribute('href') === `#${id}`) {
-                        a.classList.add('active-nav');
-                    }
+                    a.classList.toggle('active-nav', a.getAttribute('href') === `#${id}`);
                 });
             }
         });

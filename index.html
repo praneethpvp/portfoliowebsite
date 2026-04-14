@@ -81,24 +81,35 @@
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <div class="profile-photo-wrapper">
-                        <div class="photo-ring"></div>
-                        <img src="profile.jpg" alt="Praneeth Varma" class="profile-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                        <div class="photo-fallback">PV</div>
-                        <div class="photo-glow"></div>
-                    </div>
+                    <canvas id="orb-canvas"></canvas>
                     <div class="hero-float-cards">
                         <div class="float-card float-card-1">
-                            <i data-lucide="trending-up" class="icon-sm"></i>
-                            <span>+50% Detection</span>
+                            <i data-lucide="shield-check" class="icon-sm"></i>
+                            <div class="float-card-content">
+                                <span class="float-metric">50%</span>
+                                <span class="float-label">Fraud Reduction</span>
+                            </div>
                         </div>
                         <div class="float-card float-card-2">
-                            <i data-lucide="bar-chart-3" class="icon-sm"></i>
-                            <span>25+ Campaigns</span>
+                            <i data-lucide="search" class="icon-sm"></i>
+                            <div class="float-card-content">
+                                <span class="float-metric">20%</span>
+                                <span class="float-label">Engagement Lift</span>
+                            </div>
                         </div>
                         <div class="float-card float-card-3">
-                            <i data-lucide="zap" class="icon-sm"></i>
-                            <span>10+ Years</span>
+                            <i data-lucide="trending-up" class="icon-sm"></i>
+                            <div class="float-card-content">
+                                <span class="float-metric">25+</span>
+                                <span class="float-label">Global Campaigns</span>
+                            </div>
+                        </div>
+                        <div class="float-card float-card-4">
+                            <i data-lucide="brain" class="icon-sm"></i>
+                            <div class="float-card-content">
+                                <span class="float-metric">10+</span>
+                                <span class="float-label">Years in Data</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,39 +128,57 @@
                     <h2 class="section-title">Numbers That Tell the Story</h2>
                 </div>
                 <div class="impact-grid">
-                    <div class="impact-card">
-                        <div class="impact-icon"><i data-lucide="shield-check"></i></div>
-                        <div class="impact-number" data-target="50" data-suffix="%">0</div>
+                    <div class="impact-card" data-tilt>
+                        <svg class="sparkline" viewBox="0 0 100 30" preserveAspectRatio="none"><path class="sparkline-path" d="M0,28 L15,25 L30,22 L45,20 L55,18 L65,14 L75,10 L85,6 L100,2" /></svg>
+                        <div class="impact-top">
+                            <div class="impact-icon"><i data-lucide="shield-check"></i></div>
+                            <div class="impact-number" data-target="50" data-suffix="%">0</div>
+                        </div>
                         <div class="impact-label">Fraud Detection Improvement</div>
                         <div class="impact-context">Built ML models at Google that cut fraudulent profiles in half</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-icon"><i data-lucide="target"></i></div>
-                        <div class="impact-number" data-target="25" data-suffix="+">0</div>
+                    <div class="impact-card" data-tilt>
+                        <svg class="sparkline" viewBox="0 0 100 30" preserveAspectRatio="none"><path class="sparkline-path" d="M0,28 L10,26 L20,24 L35,20 L50,16 L60,12 L70,8 L80,5 L90,3 L100,2" /></svg>
+                        <div class="impact-top">
+                            <div class="impact-icon"><i data-lucide="target"></i></div>
+                            <div class="impact-number" data-target="25" data-suffix="+">0</div>
+                        </div>
                         <div class="impact-label">Global Campaigns Driven</div>
                         <div class="impact-context">Powered Azure & Office marketing analytics at Microsoft</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-icon"><i data-lucide="trending-up"></i></div>
-                        <div class="impact-number" data-target="20" data-suffix="%">0</div>
+                    <div class="impact-card" data-tilt>
+                        <svg class="sparkline" viewBox="0 0 100 30" preserveAspectRatio="none"><path class="sparkline-path" d="M0,25 L12,23 L25,20 L40,22 L55,16 L65,12 L80,8 L90,5 L100,2" /></svg>
+                        <div class="impact-top">
+                            <div class="impact-icon"><i data-lucide="trending-up"></i></div>
+                            <div class="impact-number" data-target="20" data-suffix="%">0</div>
+                        </div>
                         <div class="impact-label">Search Engagement Lift</div>
                         <div class="impact-context">Refined ranking algorithms with ML scientists at Amazon</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-icon"><i data-lucide="layout-dashboard"></i></div>
-                        <div class="impact-number" data-target="95" data-suffix="%">0</div>
+                    <div class="impact-card" data-tilt>
+                        <svg class="sparkline" viewBox="0 0 100 30" preserveAspectRatio="none"><path class="sparkline-path" d="M0,28 L20,22 L35,12 L50,6 L65,4 L80,3 L100,2" /></svg>
+                        <div class="impact-top">
+                            <div class="impact-icon"><i data-lucide="layout-dashboard"></i></div>
+                            <div class="impact-number" data-target="95" data-suffix="%">0</div>
+                        </div>
                         <div class="impact-label">Data Quality Achieved</div>
                         <div class="impact-context">Revamped ETL pipelines eliminating inconsistencies at Microsoft</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-icon"><i data-lucide="users"></i></div>
-                        <div class="impact-number" data-target="25" data-suffix="%">0</div>
+                    <div class="impact-card" data-tilt>
+                        <svg class="sparkline" viewBox="0 0 100 30" preserveAspectRatio="none"><path class="sparkline-path" d="M0,26 L15,24 L30,22 L45,18 L55,14 L70,10 L85,6 L100,2" /></svg>
+                        <div class="impact-top">
+                            <div class="impact-icon"><i data-lucide="users"></i></div>
+                            <div class="impact-number" data-target="25" data-suffix="%">0</div>
+                        </div>
                         <div class="impact-label">Customer Acquisition Growth</div>
                         <div class="impact-context">Drove new customer growth through metric-driven campaigns</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-icon"><i data-lucide="brain"></i></div>
-                        <div class="impact-number" data-target="60" data-suffix="%">0</div>
+                    <div class="impact-card" data-tilt>
+                        <svg class="sparkline" viewBox="0 0 100 30" preserveAspectRatio="none"><path class="sparkline-path" d="M0,28 L10,25 L25,20 L40,15 L55,12 L65,8 L80,5 L100,2" /></svg>
+                        <div class="impact-top">
+                            <div class="impact-icon"><i data-lucide="brain"></i></div>
+                            <div class="impact-number" data-target="60" data-suffix="%">0</div>
+                        </div>
                         <div class="impact-label">ML Recall Rate</div>
                         <div class="impact-context">Identifying abusive orders on Google Shopping with ML</div>
                     </div>
@@ -343,7 +372,7 @@
                     <h2 class="section-title">Selected Case Studies</h2>
                 </div>
                 <div class="case-studies-grid">
-                    <div class="case-card">
+                    <div class="case-card" data-tilt>
                         <div class="case-header">
                             <div class="case-company">Google</div>
                             <div class="case-icon"><i data-lucide="shield-check"></i></div>
@@ -380,7 +409,7 @@
                         </div>
                     </div>
 
-                    <div class="case-card">
+                    <div class="case-card" data-tilt>
                         <div class="case-header">
                             <div class="case-company">Amazon</div>
                             <div class="case-icon"><i data-lucide="search"></i></div>
@@ -417,7 +446,7 @@
                         </div>
                     </div>
 
-                    <div class="case-card">
+                    <div class="case-card" data-tilt>
                         <div class="case-header">
                             <div class="case-company">Microsoft</div>
                             <div class="case-icon"><i data-lucide="megaphone"></i></div>
@@ -536,19 +565,19 @@
                     <p class="section-subtitle">Beyond the day job — exploring the intersection of AI, data, and products that help people make better decisions.</p>
                 </div>
                 <div class="ventures-grid">
-                    <div class="venture-card">
+                    <div class="venture-card" data-tilt>
                         <div class="venture-icon"><i data-lucide="layout-dashboard"></i></div>
                         <h3>AI Life Dashboard</h3>
                         <p>A personal AI dashboard that pulls together your health, tasks, finances, and relationships into one visual view — then uses AI to prioritize what actually matters today.</p>
                         <span class="venture-tag">Product Concept</span>
                     </div>
-                    <div class="venture-card">
+                    <div class="venture-card" data-tilt>
                         <div class="venture-icon"><i data-lucide="sparkles"></i></div>
                         <h3>AI Analytics Engine</h3>
                         <p>Helping businesses implement AI into their existing analytics workflows — turning slow, manual data work into fast, AI-powered insight engines.</p>
                         <span class="venture-tag">Service / SaaS</span>
                     </div>
-                    <div class="venture-card">
+                    <div class="venture-card" data-tilt>
                         <div class="venture-icon"><i data-lucide="heart-pulse"></i></div>
                         <h3>Health Intelligence</h3>
                         <p>A platform that analyzes your health data — labs, wearables, diet logs — and gives personalized, data-backed nutrition recommendations tailored to your body.</p>
