@@ -76,12 +76,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        let particlesRunning = true;
         function updateCanvasOpacity() {
-            canvas.style.opacity = Math.max(0, 1 - window.scrollY / (window.innerHeight * 0.8));
+            const opacity = Math.max(0, 1 - window.scrollY / (window.innerHeight * 0.8));
+            canvas.style.opacity = opacity;
+            // Pause particle animation when scrolled past hero
+            if (opacity <= 0 && particlesRunning) {
+                particlesRunning = false;
+                cancelAnimationFrame(animId);
+            } else if (opacity > 0 && !particlesRunning) {
+                particlesRunning = true;
+                animateParticles();
+            }
         }
         window.addEventListener('scroll', updateCanvasOpacity, { passive: true });
 
         function animateParticles() {
+            if (!particlesRunning) return;
             ctx.clearRect(0, 0, width, height);
             particles.forEach(p => { p.update(); p.draw(); });
             drawConnections();
@@ -92,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', () => {
             cancelAnimationFrame(animId);
             initParticles();
-            animateParticles();
+            if (particlesRunning) animateParticles();
         });
     }
 
@@ -272,8 +283,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            requestAnimationFrame(drawOrb);
+            if (orbVisible) requestAnimationFrame(drawOrb);
         }
+
+        let orbVisible = true;
+        const orbObserver = new IntersectionObserver((entries) => {
+            orbVisible = entries[0].isIntersecting;
+            if (orbVisible) drawOrb();
+        }, { threshold: 0.1 });
+        orbObserver.observe(orbCanvas);
         drawOrb();
     }
 
@@ -504,7 +522,8 @@ document.addEventListener('DOMContentLoaded', () => {
             { name: 'Languages', value: 0.85, color: '#7c3aed' },
             { name: 'BI & Viz', value: 0.95, color: '#10b981' },
             { name: 'Cloud', value: 0.80, color: '#f59e0b' },
-            { name: 'AI / ML', value: 0.75, color: '#ef4444' }
+            { name: 'AI / ML', value: 0.75, color: '#ef4444' },
+            { name: 'AI Tooling', value: 0.82, color: '#06b6d4' }
         ];
         const n = categories.length;
         const angleStep = (2 * Math.PI) / n;

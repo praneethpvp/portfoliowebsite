@@ -40,41 +40,45 @@
             analytics: ['A/B Testing', 'Statistical Analysis', 'KPI Definition', 'Market Trend Analysis', 'Forecasting', 'Experimentation Design'],
             languages: ['SQL (T-SQL / PL-SQL)', 'Python', 'Pandas / PySpark', 'R', 'DAX', 'JavaScript'],
             bi: ['Tableau', 'Power BI', 'QuickSight', 'Looker', 'Excel (Advanced)'],
-            cloud: ['AWS (Glue, Athena, S3)', 'Azure Data Studio', 'Snowflake', 'BigQuery', 'Apache Spark'],
-            ml: ['Neural Networks', 'CNNs', 'Classification Models', 'NLP', 'Anomaly Detection']
+            cloud: ['AWS (Glue, Athena, S3, Redshift)', 'Databricks / Spark SQL', 'Snowflake', 'BigQuery', 'Azure (Synapse, Data Factory)', 'Superglue ETL', 'Airflow'],
+            ml: ['Classification Models', 'Anomaly Detection', 'NLP', 'Neural Networks / CNNs', 'Fraud ML'],
+            aiTooling: ['Claude Code / MCP Servers', 'Agentic Workflows', 'AI-Assisted SQL', 'Prompt Engineering', 'Internal Dev Tools']
         },
 
         experience: [
             {
                 company: 'Intuit',
-                role: 'Reporting Data Analyst IV',
+                role: 'Senior Data Analyst',
                 period: 'Oct 2024 – Present',
                 highlights: [
-                    'Built 5+ critical dashboards for tracking Fraud Policy KPIs',
-                    'Migrated 10+ dashboards to QuickSight, enhancing data quality',
-                    'Led cross-functional collaboration for Fast Funding project'
+                    'Built 16+ critical dashboards and 20+ ETL pipelines across Payments, Payroll, Bill Pay, Banking, and Capital',
+                    'Led migration of 10+ dashboards from Tableau to QuickSight',
+                    'Built regulator-facing IDV compliance dashboards for audit readiness',
+                    'Mentored 2 junior analysts on SQL optimization and dashboard best practices'
                 ],
-                tech: ['QuickSight', 'SQL', 'Python', 'ETL']
+                tech: ['QuickSight', 'SQL', 'Superglue ETL', 'Redshift', 'Data Modeling']
             },
             {
                 company: 'Microsoft',
                 role: 'Marketing Data Analyst',
-                period: 'Dec 2023 – Sep 2024',
+                period: 'Oct 2023 – Sep 2024',
                 highlights: [
-                    'Drove 25+ global marketing campaigns for Azure and Office',
-                    'Increased customer engagement by 20% and acquisition by 25%',
-                    'Optimized in-product campaigns with Growth and Data Engineering teams'
+                    'Owned analytics strategy for 25+ global marketing campaigns for Azure and Office',
+                    'Drove 20% customer engagement lift and 25% new customer acquisition',
+                    'Built automated campaign performance pipeline replacing 15+ hours/week of manual reporting',
+                    'Established the team\'s A/B testing playbook for marketing experiments'
                 ],
                 tech: ['Power BI', 'SQL', 'Azure', 'Growth Analytics']
             },
             {
                 company: 'Amazon',
                 role: 'Business Intelligence Engineer',
-                period: 'Aug 2022 – May 2023',
+                period: 'Aug 2022 – Aug 2023',
                 highlights: [
-                    'Led search optimization for US and India markets',
-                    'Achieved 20% engagement lift by refining search ranking with ML scientists',
-                    'Built ETL pipelines using AWS Glue and S3 for multi-market data'
+                    'Led search optimization for US and India markets, defining CTR/relevance metric framework',
+                    'Achieved 20% engagement lift by designing A/B experiments with ML scientists',
+                    'Architected ETL pipelines using AWS Glue and S3, adopted by 3 partner teams',
+                    'Onboarded and ramped 2 new BIEs on data infrastructure and experimentation workflows'
                 ],
                 tech: ['AWS Glue', 'S3', 'A/B Testing', 'ML']
             },
@@ -85,18 +89,20 @@
                 highlights: [
                     'Enhanced customer revenue identification by 12% via automated reports',
                     'Achieved 95% reduction in data inconsistencies by revamping ETL',
-                    'Streamlined analytical workflows using Azure Data Studio'
+                    'Cut biweekly analytics delivery time by 33%, freeing ~8 hours/week',
+                    'Became go-to resource for data pipeline troubleshooting across 3 product teams'
                 ],
                 tech: ['Azure Data Studio', 'T-SQL', 'ETL', 'Power BI']
             },
             {
                 company: 'Google',
-                role: 'Data Analyst',
+                role: 'Data Analyst, Fraud & Risk',
                 period: 'Feb 2018 – Apr 2020',
                 highlights: [
-                    '50% improvement in detecting fraudulent profiles using ML models',
+                    'Built production Python/ML models cutting transactional losses by 50%',
                     '60% recall rate in identifying abusive orders on Google Shopping',
-                    'Enabled real-time abuse monitoring using Tableau dashboards'
+                    'Deployed Tableau dashboards with auto-alerting for real-time abuse monitoring',
+                    'Partnered with engineering and policy to scale fraud defense platform-wide'
                 ],
                 tech: ['Python', 'ML', 'Tableau', 'BigQuery']
             }
@@ -104,15 +110,21 @@
 
         caseStudies: [
             {
+                title: 'FinRisk Analytics Platform',
+                company: 'Intuit',
+                desc: 'Built the full analytics stack from scratch — 16+ production dashboards, 20+ ETL pipelines, regulator-facing IDV compliance dashboards, and ONB 2.0 data model across five product lines.',
+                tech: ['QuickSight', 'Superglue ETL', 'Redshift', 'Compliance', 'Data Modeling']
+            },
+            {
                 title: 'Fraud Detection System',
                 company: 'Google',
-                desc: 'Built ML classification models to detect fraud signals on Google Shopping, achieving 50% reduction in fraudulent profiles and 60% recall rate on abusive orders.',
+                desc: 'Built Python/ML classification models to detect fraud signals on Google Shopping, cutting transactional losses by 50% and achieving 60% recall on abusive orders.',
                 tech: ['Python', 'ML Classification', 'Tableau', 'BigQuery']
             },
             {
                 title: 'Search Optimization',
                 company: 'Amazon',
-                desc: 'Partnered with ML scientists to optimize search ranking across US and India markets, achieving 20% engagement lift and 10% merchant engagement growth.',
+                desc: 'Defined CTR/relevance metric framework and designed A/B experiments with ML scientists across US and India markets, achieving 20% engagement lift.',
                 tech: ['AWS Glue', 'S3', 'A/B Testing', 'SQL']
             },
             {
@@ -130,9 +142,9 @@
         ],
 
         githubProjects: [
-            { name: 'Sleep Data Analysis with ANOVA', desc: 'Statistical modeling of sleep efficiency data from fitness trackers' },
-            { name: 'CDiscount Image Classification', desc: 'Deep learning model for product image classification using CNNs' },
-            { name: 'Employee Turnover Prediction', desc: 'ML models for predicting employee departures with feature engineering' }
+            { name: 'Career-Ops', desc: 'AI-powered job search pipeline built on Claude Code — 14 skill modes, automated scanning, offer evaluation, PDF generation' },
+            { name: 'Ecoute — Live AI Transcription', desc: 'Real-time transcription tool capturing mic and speaker audio with GPT-3.5 suggested responses' },
+            { name: 'Portfolio Website', desc: 'This site — vanilla HTML/CSS/JS with Canvas particles, GSAP animations, SVG radar charts, and AI chatbot' }
         ]
     };
 
@@ -199,7 +211,7 @@
             patterns: [/skills?/i, /tech\s*stack/i, /tools?/i, /what.*know/i, /technologies/i, /proficien/i, /toolkit/i, /programming\s*language/i],
             response: () => {
                 const s = KB.skills;
-                return `Here's Praneeth's toolkit:\n\n<strong>📊 Analytics:</strong> ${s.analytics.join(', ')}\n\n<strong>💻 Languages:</strong> ${s.languages.join(', ')}\n\n<strong>📈 BI & Viz:</strong> ${s.bi.join(', ')}\n\n<strong>☁️ Cloud:</strong> ${s.cloud.join(', ')}\n\n<strong>🧠 AI/ML:</strong> ${s.ml.join(', ')}`;
+                return `Here's Praneeth's toolkit:\n\n<strong>📊 Analytics:</strong> ${s.analytics.join(', ')}\n\n<strong>💻 Languages:</strong> ${s.languages.join(', ')}\n\n<strong>📈 BI & Viz:</strong> ${s.bi.join(', ')}\n\n<strong>☁️ Cloud:</strong> ${s.cloud.join(', ')}\n\n<strong>🧠 AI/ML:</strong> ${s.ml.join(', ')}\n\n<strong>🤖 AI Tooling:</strong> ${s.aiTooling.join(', ')}`;
             },
             followUp: ['experience', 'case-studies', 'certifications']
         },
